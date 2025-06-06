@@ -9,10 +9,7 @@ module.exports = {
   },
   plugins: [
     new Dotenv({
-      systemvars: true, // Load system environment variables as well
-      safe: true, // Load '.env.example' to verify the '.env' variables
-      defaults: false // Don't load '.env.defaults'
+      systemvars: true, // Load system environment variables too
     })
   ],
-  mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
 };

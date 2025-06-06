@@ -4,11 +4,11 @@
   "description": "![image](https://github.com/user-attachments/assets/28cca905-4310-436f-8caf-7ca8468a2997)",
   "main": "background.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --mode production",
-    "dev": "webpack --mode development",
-    "watch": "webpack --mode development --watch"
-  },
+  "build": "webpack --mode production",
+  "dev": "webpack --mode development",
+  "watch": "webpack --mode development --watch",
+  "start": "webpack serve --mode development"
+},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/parshvi1508/SheSpeaks_2025_ACM-W.git"

@@ -1,13 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Firebase initialization
+  // Firebase initialization using only environment variables
   const firebaseConfig = {
-    apiKey: process.env.FIREBASE_API_KEY || "AIzaSyCCEYnTrQHvM_WFMUCGay9JO-jtwaYkQ0Q",
-    authDomain: process.env.FIREBASE_AUTH_DOMAIN || "she-speaks-2025.firebaseapp.com",
-    projectId: process.env.FIREBASE_PROJECT_ID || "she-speaks-2025",
-    storageBucket: process.env.FIREBASE_STORAGE_BUCKET || "she-speaks-2025.firebasestorage.app",
-    messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID || "908378026473",
-    appId: process.env.FIREBASE_APP_ID || "1:908378026473:web:e5a3026c96c7894dc51b78",
-    measurementId: process.env.FIREBASE_MEASUREMENT_ID || "G-VLYD379V3R"
+    apiKey: process.env.FIREBASE_API_KEY,
+    authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.FIREBASE_APP_ID,
+    measurementId: process.env.FIREBASE_MEASUREMENT_ID
   };
 
   // Initialize Firebase
