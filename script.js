@@ -1,3 +1,22 @@
+    <script type="module">
+  
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.9.0/firebase-analytics.js";
+  
+  const firebaseConfig = {
+    apiKey: "AIzaSyCCEYnTrQHvM_WFMUCGay9JO-jtwaYkQ0Q",
+    authDomain: "she-speaks-2025.firebaseapp.com",
+    projectId: "she-speaks-2025",
+    storageBucket: "she-speaks-2025.firebasestorage.app",
+    messagingSenderId: "908378026473",
+    appId: "1:908378026473:web:e5a3026c96c7894dc51b78",
+    measurementId: "G-VLYD379V3R"
+  };
+
+ 
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
 document.addEventListener('DOMContentLoaded', () => {
   // Firebase initialization using only environment variables
   const firebaseConfig = {
