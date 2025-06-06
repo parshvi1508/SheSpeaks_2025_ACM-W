@@ -1,4 +1,21 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // Firebase initialization
+  const firebaseConfig = {
+    apiKey: process.env.FIREBASE_API_KEY || "AIzaSyCCEYnTrQHvM_WFMUCGay9JO-jtwaYkQ0Q",
+    authDomain: process.env.FIREBASE_AUTH_DOMAIN || "she-speaks-2025.firebaseapp.com",
+    projectId: process.env.FIREBASE_PROJECT_ID || "she-speaks-2025",
+    storageBucket: process.env.FIREBASE_STORAGE_BUCKET || "she-speaks-2025.firebasestorage.app",
+    messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID || "908378026473",
+    appId: process.env.FIREBASE_APP_ID || "1:908378026473:web:e5a3026c96c7894dc51b78",
+    measurementId: process.env.FIREBASE_MEASUREMENT_ID || "G-VLYD379V3R"
+  };
+
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  
+  // Initialize Firestore
+  const db = firebase.firestore();
+  
   // Form elements
   const form = document.getElementById('sheSpeaksForm');
   const sections = document.querySelectorAll('.form-section');
@@ -96,24 +113,56 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   
   // Handle form submission
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
     
-    // Hide form
-    form.style.display = 'none';
-    
-    // Show thank you message
-    thankYou.style.display = 'block';
-    
-    // Clear progress bar and text
-    progressFill.style.width = '100%';
-    progressText.textContent = 'Thank you for your voice!';
-    
-    // Scroll to top
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    
-    // In a real app, you would send the form data to your server here
-    console.log('Form submitted');
+    try {
+      // Get all form data
+      const formData = new FormData(form);
+      const formDataObj = {};
+      
+      // Get checkbox values for "help" question (multiple selection)
+      const helpCheckboxes = document.querySelectorAll('input[name="help"]:checked');
+      const helpValues = Array.from(helpCheckboxes).map(checkbox => checkbox.value);
+      
+      // Convert FormData to a regular object
+      formData.forEach((value, key) => {
+        // Skip "help" as we handle it separately
+        if (key !== "help") {
+          formDataObj[key] = value;
+        }
+      });
+      
+      // Add the "help" values as an array
+      formDataObj.help = helpValues;
+      
+      // Add timestamp
+      formDataObj.submittedAt = firebase.firestore.FieldValue.serverTimestamp();
+      
+      console.log("Submitting data to Firebase:", formDataObj);
+      
+      // Save to Firestore
+      await db.collection('responses').add(formDataObj);
+      
+      console.log('Form data saved to Firebase successfully!');
+      
+      // Hide form
+      form.style.display = 'none';
+      
+      // Show thank you message
+      thankYou.style.display = 'block';
+      
+      // Update progress bar and text
+      progressFill.style.width = '100%';
+      progressText.textContent = 'Thank you for your voice!';
+      
+      // Scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      
+    } catch (error) {
+      console.error('Error saving to Firebase:', error);
+      alert('There was an error submitting your response. Please try again later.');
+    }
   });
   
   // Update slider values when moved
