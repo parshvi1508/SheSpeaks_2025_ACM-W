@@ -1,0 +1,254 @@
+<!DOCTYPE html><html lang=en><meta charset=UTF-8><meta name=viewport content="width=device-width, initial-scale=1.0"><title>SheSpeaks_2025</title><link rel=stylesheet href=/SheSpeaks_2025_ACM-W.31a18001.css><body>
+    <div id=bg-canvas></div>
+    
+    <div class=container>
+        
+        <header class=header>
+            <h1 class=main-title>🌸 SheSpeaks_2025</h1>
+            <p class=subtitle>Because silence was never our default.</p>
+            <div class=description>
+                <p>💬 <strong>An anonymous form for girls to speak their truth — raw, real, and relevant. Not long, not heavy. Just your side of the story.</strong></p>
+                <p class=help-text>(Your answers will help bring real, girl-driven change.)</p>
+            </div>
+        </header>
+
+        
+        <div class=progress-container>
+            <div class=progress-bar>
+                <div class=progress-fill id=progressFill></div>
+            </div>
+            <div class=progress-text id=progressText>Let's begin your story...</div>
+        </div>
+
+        <form id=sheSpeaksForm>
+            
+            <section class="active form-section" data-section=1>
+                <div class=section-header>
+                    <h2>🔹 Section 1: Just to Know You</h2>
+                    <p class=section-subtitle>"Not another intro form — just setting the scene."</p>
+                </div>
+
+                <div class=question-group>
+                    <label>1. What year are you in? 🎓</label>
+                    <div class=options>
+                        <label><input type=radio name=year value=1st> 1st</label>
+                        <label><input type=radio name=year value=2nd> 2nd</label>
+                        <label><input type=radio name=year value=3rd> 3rd</label>
+                        <label><input type=radio name=year value=Final> Final</label>
+                    </div>
+                </div>
+
+                <div class=question-group>
+                    <label>2. Your course? (CSE, ECE, etc.) ✍️ <span class=optional>(Optional short answer)</span></label>
+                    <input name=course placeholder="Enter your course">
+                    <p class=question-note>"Because we know you're more than your course — but still, tell us 😉"</p>
+                </div>
+
+                <div class=question-group>
+                    <label>3. Ever felt judged in tech spaces just because you're a girl? 🤔</label>
+                    <div class=options>
+                        <label><input type=radio name=judged value=multiple> Yep, multiple times</label>
+                        <label><input type=radio name=judged value=sometimes> Sometimes</label>
+                        <label><input type=radio name=judged value=not-really> Not really</label>
+                        <label><input type=radio name=judged value=cant-say> Can't say</label>
+                    </div>
+                    <p class=question-note>"Bias wears a hoodie too — not just a tie."</p>
+                </div>
+
+                <div class=nav-buttons>
+                    <button type=button class="nav-btn next-btn">Next Section <span class=arrow>→</span></button>
+                </div>
+            </section>
+
+            
+            <section class=form-section data-section=2>
+                <div class=section-header>
+                    <h2>🔹 Section 2: What It's Really Like</h2>
+                    <p class=section-subtitle>"Beyond grades and group chats — how it feels to be here."</p>
+                </div>
+
+                <div class=question-group>
+                    <label>4. In group discussions / projects, your voice is... 🎙️</label>
+                    <div class=options>
+                        <label><input type=radio name=voice value=heard> Heard and respected</label>
+                        <label><input type=radio name=voice value=ignored> Ignored unless I push</label>
+                        <label><input type=radio name=voice value=talked-over> Talked over like background noise</label>
+                        <label><input type=radio name=voice value=depends> Depends on the group</label>
+                    </div>
+                    <p class=question-note>"Being the only girl in the group chat shouldn't mean being the quietest."</p>
+                </div>
+
+                <div class=question-group>
+                    <label>5. Have you ever stepped back from a tech thing because of gender vibes in the room? 🙃</label>
+                    <div class=options>
+                        <label><input type=radio name=stepped-back value=yes> Yes</label>
+                        <label><input type=radio name=stepped-back value=no> No</label>
+                        <label><input type=radio name=stepped-back value=sometimes> Sometimes</label>
+                        <label><input type=radio name=stepped-back value=still-show-up> I still show up, though</label>
+                    </div>
+                    <p class=question-note>"We fight bugs. But also, bias."</p>
+                </div>
+
+                <div class=question-group>
+                    <label>6. Hostel curfews killed your tech event vibe? 🕒</label>
+                    <div class=options>
+                        <label><input type=radio name=curfews value=all-the-time> All. The. Time.</label>
+                        <label><input type=radio name=curfews value=sometimes> Sometimes</label>
+                        <label><input type=radio name=curfews value=rarely> Rarely</label>
+                        <label><input type=radio name=curfews value=never> Never an issue</label>
+                    </div>
+                    <p class=question-note>"Hackathons don't sleep — why should we be forced to?"</p>
+                </div>
+
+                <div class=nav-buttons>
+                    <button type=button class="nav-btn prev-btn"><span class=arrow>←</span> Previous</button>
+                    <button type=button class="nav-btn next-btn">Next Section <span class=arrow>→</span></button>
+                </div>
+            </section>
+
+            
+            <section class=form-section data-section=3>
+                <div class=section-header>
+                    <h2>🔹 Section 3: 5-Point Mood Check</h2>
+                    <p class=section-subtitle>"Strongly Disagree (1) to Strongly Agree (5). Slide with your soul."</p>
+                </div>
+
+                <div class=question-group>
+                    <label>7. How much do you agree with these?</label>
+                    <p class=question-note>"Role models matter. So does room to grow."</p>
+                    
+                    <div class=slider-group>
+                        <label>Engineering still feels like a "boys' club" <span class=slider-value data-slider=boys-club>3</span></label>
+                        <input type=range name=boys-club min=1 max=5 value=3>
+                        <div class=slider-labels>
+                            <span>Strongly Disagree</span>
+                            <span>Strongly Agree</span>
+                        </div>
+                    </div>
+
+                    <div class=slider-group>
+                        <label>My college actually gives girls equal chances <span class=slider-value data-slider=equal-chances>3</span></label>
+                        <input type=range name=equal-chances min=1 max=5 value=3>
+                    </div>
+
+                    <div class=slider-group>
+                        <label>I feel safe and supported here <span class=slider-value data-slider=safe-supported>3</span></label>
+                        <input type=range name=safe-supported min=1 max=5 value=3>
+                    </div>
+
+                    <div class=slider-group>
+                        <label>I've held back from speaking up just because I was the only girl <span class=slider-value data-slider=held-back>3</span></label>
+                        <input type=range name=held-back min=1 max=5 value=3>
+                    </div>
+
+                    <div class=slider-group>
+                        <label>I wish we had more women seniors / mentors to vibe with <span class=slider-value data-slider=women-mentors>3</span></label>
+                        <input type=range name=women-mentors min=1 max=5 value=3>
+                    </div>
+                </div>
+
+                <div class=nav-buttons>
+                    <button type=button class="nav-btn prev-btn"><span class=arrow>←</span> Previous</button>
+                    <button type=button class="nav-btn next-btn">Next Section <span class=arrow>→</span></button>
+                </div>
+            </section>
+
+            
+            <section class=form-section data-section=4>
+                <div class=section-header>
+                    <h2>🔹 Section 4: Say It If You Want</h2>
+                    <p class=section-subtitle>"Not mandatory. But if you want to unload, we're listening."</p>
+                </div>
+
+                <div class=question-group>
+                    <label>8. Ever wanted to report / speak up but didn't? What held you back? 💭 <span class=optional>(Optional)</span></label>
+                    <textarea name=held-back-report rows=4 placeholder="Share your thoughts here..."></textarea>
+                    <p class=question-note>"Sometimes the hardest thing is deciding if it's even worth the mess."</p>
+                </div>
+
+                <div class=question-group>
+                    <label>9. If you could change just one thing in college to make tech better for girls... what would it be? 🌈</label>
+                    <textarea name=one-change placeholder="1-2 lines only..."></textarea>
+                    <p class=question-note>"From curfews to core teams — no filter needed."</p>
+                </div>
+
+                <div class=nav-buttons>
+                    <button type=button class="nav-btn prev-btn"><span class=arrow>←</span> Previous</button>
+                    <button type=button class="nav-btn next-btn">Next Section <span class=arrow>→</span></button>
+                </div>
+            </section>
+
+            
+            <section class=form-section data-section=5>
+                <div class=section-header>
+                    <h2>🔹 Section 5: Quick Picks (Choose Your Power)</h2>
+                    <p class=section-subtitle>"What we want shouldn't be whispered."</p>
+                </div>
+
+                <div class=question-group>
+                    <label>10. What would genuinely help girls in tech on campus? (Pick 2 max) ✅</label>
+                    <div class="checkbox-options options">
+                        <label><input type=checkbox name=help value=all-girls-teams> All-girls tech teams</label>
+                        <label><input type=checkbox name=help value=women-mentors> Women tech mentors / speakers</label>
+                        <label><input type=checkbox name=help value=late-night-access> Late-night lab / hackathon access</label>
+                        <label><input type=checkbox name=help value=transparent-selections> Transparent team selections</label>
+                        <label><input type=checkbox name=help value=anonymous-reporting> Anonymous reporting system</label>
+                        <label><input type=checkbox name=help value=not-sure> I'm not sure yet</label>
+                    </div>
+                    <p class=question-note>"Help us fight the 'log kya kahenge' version of event planning."</p>
+                </div>
+
+                <div class=nav-buttons>
+                    <button type=button class="nav-btn prev-btn"><span class=arrow>←</span> Previous</button>
+                    <button type=button class="nav-btn next-btn">Next Section <span class=arrow>→</span></button>
+                </div>
+            </section>
+
+            
+            <section class=form-section data-section=6>
+                <div class=section-header>
+                    <h2>🔹 Section 6: Parting Note 💌</h2>
+                    <p class=section-subtitle>"Drop one line for the next girl — the one who's scared but trying."</p>
+                </div>
+
+                <div class=question-group>
+                    <label>11. What would you tell a younger girl stepping into engineering? 💬 <span class=optional>(Optional — just one line)</span></label>
+                    <input name=advice placeholder="e.g., 'Your voice is valid even if it trembles.' or 'Don't wait to be 'allowed'.'" class=advice-input>
+                </div>
+
+                <div class=nav-buttons>
+                    <button type=button class="nav-btn prev-btn"><span class=arrow>←</span> Previous</button>
+                    <button type=button class=submit-nav-btn id=finalSubmitBtn>Submit Form 💖</button>
+                </div>
+            </section>
+
+            
+            <div class=submit-section style=display:none>
+                <button class=submit-btn id=submitBtn>
+                    <span class=btn-text>💡 Done! Thanks for speaking</span>
+                    <span class=btn-subtext>— loud or soft, it counts.</span>
+                </button>
+                <p class=final-note>"This form isn't about making a statement. It's about making space."</p>
+            </div>
+        </form>
+
+        
+        <div class=thank-you id=thankYou style=display:none>
+            <div class=thank-you-content>
+                <h2>🌸 Your voice has been heard</h2>
+                <p>Thank you for sharing your truth. Every response helps build a better tomorrow for women in tech.</p>
+                <div class=sparkles>✨ ✨ ✨</div>
+                <p class=final-message>Your story matters. Your voice counts. Your future is bright.</p>
+            </div>
+        </div>
+    </div>
+
+<script src=https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js></script>
+
+
+<script src=https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js></script>
+<script type=module src=/SheSpeaks_2025_ACM-W.40ca248d.js></script>
+
+
+
+
