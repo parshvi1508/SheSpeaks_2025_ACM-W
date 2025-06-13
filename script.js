@@ -1,3 +1,6 @@
+import './styles.css';
+import './background.js';
+
 document.addEventListener('DOMContentLoaded', () => {
   // Firebase initialization using only environment variables
   const firebaseConfig = {
