@@ -1415,50 +1415,79 @@ def say_it_page(df):
                     """, unsafe_allow_html=True)
                 
                 # Deep dive analysis
-                st.markdown('<h3 class="section-title">💭 What This Tells Us</h3>', unsafe_allow_html=True)
-                col1, col2, col3, col4 = st.columns(4)
+                st.markdown('<h3 class="section-title">🔍 What This Data Reveals</h3>', unsafe_allow_html=True)
+                
+                # Calculate total mentions for context
+                total_mentions = sum(top_words.values()) if top_words else 0
+                
+                # Generate insights based on patterns
+                insights = []
+                
+                # Fear and safety analysis
+                if fear_count > 0:
+                    fear_percentage = (fear_count / total_mentions) * 100 if total_mentions > 0 else 0
+                    if fear_percentage > 30:
+                        insights.append("😰 <strong>High Fear Environment:</strong> Students are primarily held back by fear of consequences, suggesting a culture of intimidation")
+                    elif fear_percentage > 15:
+                        insights.append("😰 <strong>Fear Barriers:</strong> Fear is a significant factor preventing students from reporting issues")
+                
+                # Safety concerns analysis
+                if safety_count > 0:
+                    safety_percentage = (safety_count / total_mentions) * 100 if total_mentions > 0 else 0
+                    if safety_percentage > 20:
+                        insights.append("🛡️ <strong>Career Safety Concerns:</strong> Students fear reporting will impact their career opportunities and social standing")
+                    elif safety_percentage > 10:
+                        insights.append("🛡️ <strong>Isolation Fears:</strong> Students worry about being isolated or getting others in trouble")
+                
+                # Confidence analysis
+                if confidence_count > 0:
+                    confidence_percentage = (confidence_count / total_mentions) * 100 if total_mentions > 0 else 0
+                    if confidence_percentage > 25:
+                        insights.append("💪 <strong>Confidence Crisis:</strong> Students lack confidence in their judgment about what's worth reporting")
+                    elif confidence_percentage > 10:
+                        insights.append("💪 <strong>Self-Doubt:</strong> Students question whether their experiences are significant enough to report")
+                
+                # Support gaps analysis
+                if support_count > 0:
+                    support_percentage = (support_count / total_mentions) * 100 if total_mentions > 0 else 0
+                    if support_percentage > 20:
+                        insights.append("🤝 <strong>Systemic Support Gaps:</strong> Students don't know procedures or whom to approach for help")
+                    elif support_percentage > 10:
+                        insights.append("🤝 <strong>Information Gaps:</strong> Students lack clear guidance on reporting processes")
+                
+                # Overall pattern analysis
+                if total_mentions > 0:
+                    if fear_count + safety_count > confidence_count + support_count:
+                        insights.append("🚨 <strong>Safety-First Culture:</strong> Students prioritize personal safety over institutional support")
+                    else:
+                        insights.append("📚 <strong>Support-Seeking Culture:</strong> Students are looking for guidance rather than fearing consequences")
+                
+                # Display insights in a more engaging way
+                col1, col2 = st.columns(2)
                 
                 with col1:
-                    if fear_count > 0:
+                    st.markdown("""
+                    <div class="metric-card animated-bg" style="padding: 1.5rem;">
+                        <h4 style="color: #e91e63; margin-bottom: 1rem;">🎯 Key Patterns</h4>
+                    """, unsafe_allow_html=True)
+                    
+                    for i, insight in enumerate(insights[:len(insights)//2]):
                         st.markdown(f"""
-                        <div class="metric-card animated-bg" style="text-align: center; padding: 1.5rem;">
-                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">😰</div>
-                            <div style="font-weight: 600; color: #e91e63;">Fear & Safety</div>
-                            <div style="color: #7f8c8d; font-size: 0.9rem;">{fear_count} mentions</div>
-                            <div style="color: #2c3e50; font-size: 0.8rem; margin-top: 0.5rem;">Students fear consequences</div>
+                        <div style="margin-bottom: 0.5rem; padding: 0.5rem; background: rgba(233, 30, 99, 0.1); border-radius: 5px;">
+                            <div style="color: #2c3e50; font-size: 0.9rem;">{insight}</div>
                         </div>
                         """, unsafe_allow_html=True)
                 
                 with col2:
-                    if safety_count > 0:
+                    st.markdown("""
+                    <div class="metric-card animated-bg" style="padding: 1.5rem;">
+                        <h4 style="color: #e91e63; margin-bottom: 1rem;">💡 Implications</h4>
+                    """, unsafe_allow_html=True)
+                    
+                    for i, insight in enumerate(insights[len(insights)//2:]):
                         st.markdown(f"""
-                        <div class="metric-card animated-bg" style="text-align: center; padding: 1.5rem;">
-                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🛡️</div>
-                            <div style="font-weight: 600; color: #e91e63;">Safety Concerns</div>
-                            <div style="color: #7f8c8d; font-size: 0.9rem;">{safety_count} mentions</div>
-                            <div style="color: #2c3e50; font-size: 0.8rem; margin-top: 0.5rem;">Career & isolation fears</div>
-                        </div>
-                        """, unsafe_allow_html=True)
-                
-                with col3:
-                    if confidence_count > 0:
-                        st.markdown(f"""
-                        <div class="metric-card animated-bg" style="text-align: center; padding: 1.5rem;">
-                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">💪</div>
-                            <div style="font-weight: 600; color: #e91e63;">Confidence Issues</div>
-                            <div style="color: #7f8c8d; font-size: 0.9rem;">{confidence_count} mentions</div>
-                            <div style="color: #2c3e50; font-size: 0.8rem; margin-top: 0.5rem;">Self-doubt & uncertainty</div>
-                        </div>
-                        """, unsafe_allow_html=True)
-                
-                with col4:
-                    if support_count > 0:
-                        st.markdown(f"""
-                        <div class="metric-card animated-bg" style="text-align: center; padding: 1.5rem;">
-                            <div style="font-size: 2rem; margin-bottom: 0.5rem;">🤝</div>
-                            <div style="font-weight: 600; color: #e91e63;">Support Gaps</div>
-                            <div style="color: #7f8c8d; font-size: 0.9rem;">{support_count} mentions</div>
-                            <div style="color: #2c3e50; font-size: 0.8rem; margin-top: 0.5rem;">Need better procedures</div>
+                        <div style="margin-bottom: 0.5rem; padding: 0.5rem; background: rgba(255, 107, 157, 0.1); border-radius: 5px;">
+                            <div style="color: #2c3e50; font-size: 0.9rem;">{insight}</div>
                         </div>
                         """, unsafe_allow_html=True)
             else:
@@ -1714,6 +1743,85 @@ def say_it_page(df):
                         <div style="font-size: 1.5rem; margin-right: 1rem;">💭</div>
                         <div style="color: #2c3e50; font-weight: 500;">{insight}</div>
                     </div>
+                </div>
+                """, unsafe_allow_html=True)
+        
+        # Survey Summary & Implications
+        st.markdown('<h3 class="section-title">📋 Survey Summary & Implications</h3>', unsafe_allow_html=True)
+        
+        # Calculate key metrics
+        total_responses = len(filtered_df)
+        reporting_responses = len(reporting_data)
+        change_responses = len(change_data)
+        
+        # Generate summary insights
+        summary_insights = []
+        
+        # Response rate analysis
+        if reporting_responses > 0:
+            reporting_rate = (reporting_responses / total_responses) * 100
+            if reporting_rate > 70:
+                summary_insights.append("📊 <strong>High Engagement:</strong> Most students have experienced situations they wanted to report")
+            elif reporting_rate > 40:
+                summary_insights.append("📊 <strong>Moderate Concerns:</strong> Significant portion of students have faced reportable situations")
+            else:
+                summary_insights.append("📊 <strong>Selective Sharing:</strong> Students are selective about what they choose to share")
+        
+        # Change suggestions analysis
+        if change_responses > 0:
+            change_rate = (change_responses / total_responses) * 100
+            if change_rate > 80:
+                summary_insights.append("💡 <strong>High Improvement Drive:</strong> Students have clear ideas for improving the tech environment")
+            elif change_rate > 50:
+                summary_insights.append("💡 <strong>Constructive Feedback:</strong> Students are actively thinking about positive changes")
+        
+        # Pattern analysis
+        if reporting_responses > change_responses:
+            summary_insights.append("🎯 <strong>Problem-Focused:</strong> Students are more focused on barriers than solutions")
+        elif change_responses > reporting_responses:
+            summary_insights.append("🎯 <strong>Solution-Oriented:</strong> Students are more focused on improvements than problems")
+        
+        # Overall culture assessment
+        if total_responses > 0:
+            if reporting_responses > total_responses * 0.6:
+                summary_insights.append("🚨 <strong>Systemic Issues:</strong> High reporting barriers suggest systemic problems in the environment")
+            else:
+                summary_insights.append("✅ <strong>Manageable Issues:</strong> Reporting barriers are present but not overwhelming")
+        
+        # Display summary
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.markdown("""
+            <div class="metric-card animated-bg" style="padding: 1.5rem;">
+                <h4 style="color: #e91e63; margin-bottom: 1rem;">📈 Response Patterns</h4>
+            """, unsafe_allow_html=True)
+            
+            st.markdown(f"""
+            <div style="margin-bottom: 1rem;">
+                <div style="font-weight: 600; color: #2c3e50;">Total Students</div>
+                <div style="color: #7f8c8d;">{total_responses}</div>
+            </div>
+            <div style="margin-bottom: 1rem;">
+                <div style="font-weight: 600; color: #2c3e50;">Reporting Barriers</div>
+                <div style="color: #7f8c8d;">{reporting_responses} responses ({(reporting_responses/total_responses*100):.1f}%)</div>
+            </div>
+            <div style="margin-bottom: 1rem;">
+                <div style="font-weight: 600; color: #2c3e50;">Change Suggestions</div>
+                <div style="color: #7f8c8d;">{change_responses} responses ({(change_responses/total_responses*100):.1f}%)</div>
+            </div>
+            """, unsafe_allow_html=True)
+        
+        with col2:
+            st.markdown("""
+            <div class="metric-card animated-bg" style="padding: 1.5rem;">
+                <h4 style="color: #e91e63; margin-bottom: 1rem;">💭 Key Insights</h4>
+            """, unsafe_allow_html=True)
+            
+            for insight in summary_insights:
+                st.markdown(f"""
+                <div style="margin-bottom: 0.5rem; padding: 0.5rem; background: rgba(255, 107, 157, 0.1); border-radius: 5px;">
+                    <div style="color: #2c3e50; font-size: 0.9rem;">{insight}</div>
                 </div>
                 """, unsafe_allow_html=True)
         
@@ -2113,6 +2221,98 @@ def quick_picks_page(df):
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
+            
+            # Survey Insights Analysis
+            st.markdown('<h3 class="section-title">🔍 Survey Insights Analysis</h3>', unsafe_allow_html=True)
+            
+            # Analyze what the data reveals about student experiences
+            survey_insights = []
+            
+            # Calculate response patterns
+            total_selected = sum(help_counts.values())
+            avg_selections = total_selected / total_responses if total_responses > 0 else 0
+            
+            # Analyze response patterns
+            if avg_selections > 1.5:
+                survey_insights.append("📊 <strong>Multiple Pain Points:</strong> Students selected multiple options, indicating systemic issues across different areas")
+            elif avg_selections < 1.0:
+                survey_insights.append("📊 <strong>Focused Concerns:</strong> Students have specific, targeted concerns rather than broad systemic issues")
+            
+            # Analyze specific needs patterns
+            mentor_count = help_counts.get('women-mentors', 0)
+            access_count = help_counts.get('late-night-access', 0)
+            teams_count = help_counts.get('all-girls-teams', 0)
+            reporting_count = help_counts.get('anonymous-reporting', 0)
+            transparency_count = help_counts.get('transparent-selections', 0)
+            
+            # Role model analysis
+            if mentor_count > total_responses * 0.4:
+                survey_insights.append("👩‍🏫 <strong>Role Model Crisis:</strong> Over 40% want women mentors, suggesting a severe lack of visible female leadership")
+            elif mentor_count > total_responses * 0.2:
+                survey_insights.append("👩‍🏫 <strong>Role Model Gap:</strong> Significant demand for women mentors indicates limited female representation in tech leadership")
+            
+            # Access inequality analysis
+            if access_count > total_responses * 0.3:
+                survey_insights.append("🌙 <strong>Access Inequality:</strong> High demand for late-night access suggests curfew policies are significantly limiting tech participation")
+            elif access_count > total_responses * 0.15:
+                survey_insights.append("🌙 <strong>Time Constraints:</strong> Students need more flexible access to fully participate in tech activities")
+            
+            # Safe spaces analysis
+            if teams_count > total_responses * 0.25:
+                survey_insights.append("👭 <strong>Safe Space Need:</strong> High preference for all-girls teams suggests students feel uncomfortable in mixed-gender tech environments")
+            elif teams_count > total_responses * 0.1:
+                survey_insights.append("👭 <strong>Comfort Preferences:</strong> Some students prefer women-only spaces for tech activities")
+            
+            # Safety concerns analysis
+            if reporting_count > total_responses * 0.2:
+                survey_insights.append("🔒 <strong>Safety Concerns:</strong> High demand for anonymous reporting suggests students fear retaliation or judgment")
+            elif reporting_count > total_responses * 0.1:
+                survey_insights.append("🔒 <strong>Reporting Barriers:</strong> Students need safer ways to report issues without fear of consequences")
+            
+            # Trust issues analysis
+            if transparency_count > total_responses * 0.15:
+                survey_insights.append("📋 <strong>Trust Issues:</strong> Demand for transparent selections indicates current processes lack clarity and fairness")
+            
+            # Overall culture analysis
+            safety_related = reporting_count + teams_count
+            support_related = mentor_count + transparency_count
+            access_related = access_count
+            
+            if safety_related > support_related + access_related:
+                survey_insights.append("🚨 <strong>Safety-First Culture:</strong> Students prioritize safety and comfort over support and access")
+            elif support_related > safety_related + access_related:
+                survey_insights.append("🤝 <strong>Support-Seeking Culture:</strong> Students are looking for guidance and mentorship over safety concerns")
+            elif access_related > safety_related + support_related:
+                survey_insights.append("⏰ <strong>Access-Constrained Culture:</strong> Students are primarily limited by time and access restrictions")
+            
+            # Display insights
+            col1, col2 = st.columns(2)
+            
+            with col1:
+                st.markdown("""
+                <div class="metric-card animated-bg" style="padding: 1.5rem;">
+                    <h4 style="color: #e91e63; margin-bottom: 1rem;">🎯 What This Reveals</h4>
+                """, unsafe_allow_html=True)
+                
+                for i, insight in enumerate(survey_insights[:len(survey_insights)//2]):
+                    st.markdown(f"""
+                    <div style="margin-bottom: 0.5rem; padding: 0.5rem; background: rgba(233, 30, 99, 0.1); border-radius: 5px;">
+                        <div style="color: #2c3e50; font-size: 0.9rem;">{insight}</div>
+                    </div>
+                    """, unsafe_allow_html=True)
+            
+            with col2:
+                st.markdown("""
+                <div class="metric-card animated-bg" style="padding: 1.5rem;">
+                    <h4 style="color: #e91e63; margin-bottom: 1rem;">💡 Cultural Insights</h4>
+                """, unsafe_allow_html=True)
+                
+                for i, insight in enumerate(survey_insights[len(survey_insights)//2:]):
+                    st.markdown(f"""
+                    <div style="margin-bottom: 0.5rem; padding: 0.5rem; background: rgba(255, 107, 157, 0.1); border-radius: 5px;">
+                        <div style="color: #2c3e50; font-size: 0.9rem;">{insight}</div>
+                    </div>
+                    """, unsafe_allow_html=True)
             
             # Action recommendations
             st.markdown('<h3 class="section-title">🚀 Recommended Actions</h3>', unsafe_allow_html=True)
