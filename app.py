@@ -491,6 +491,51 @@ def overview_page(df):
     </div>
     """, unsafe_allow_html=True)
     
+    # Vision video section
+    st.markdown('<h2 class="section-title">🎬 SheSpeaks Vision</h2>', unsafe_allow_html=True)
+    video_left, video_center, video_right = st.columns([1, 3, 1])
+    with video_center:
+        try:
+            with open("shespeaks.mp4", "rb") as f:
+                st.video(f.read())
+        except Exception:
+            st.info("Add 'shespeaks.mp4' to the project root to display the intro video.")
+
+    with st.expander("Read the vision"):
+        st.markdown(
+            """
+            <div style="padding: 1rem 1.25rem; border-left: 4px solid #e91e63; background: rgba(233,30,99,0.06); border-radius: 8px;">
+            <p><strong>SheSpeaks.</strong></p>
+            <p>Where do we stand in this tech world?<br/>
+            At the top? Somewhere in the middle? Or barely visible?</p>
+            <p>The answers vary.<br/>
+            But maybe the real question isn’t where we stand —<br/>
+            It’s whether our presence even speaks in a world where we give our best, our full potential, to create meaningful impact.</p>
+            <p>Often, it's overlooked.<br/>
+            Sometimes, it's completely ignored.<br/>
+            But the challenges that a ‘She’ in tech faces?<br/>
+            They're real. And many.</p>
+            <p>Why does this still happen?<br/>
+            Well... sometimes the answer is right there — in silence.</p>
+            <p>Because until a problem is truly seen,<br/>
+            How can we even begin to solve it?</p>
+            <p>That’s why the ACM-W Chapter at ABES launched a survey —<br/>
+            To uncover the real challenges women face in tech.<br/>
+            In classrooms, at workplaces, while freelancing… and across society.</p>
+            <p>Not every woman faces bias.<br/>
+            But those who do?<br/>
+            They deserve to be heard.</p>
+            <p>Because change doesn’t begin with assumptions.<br/>
+            It begins with awareness.</p>
+            <p>So let’s speak.<br/>
+            Let’s listen.<br/>
+            Let’s change.</p>
+            <p><em>Because silence was never our default.</em></p>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
     if df.empty:
         st.markdown("""
         <div class="metric-card animated-bg" style="text-align: center; padding: 4rem; background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); border: 3px solid #ff6b9d;">
@@ -503,7 +548,31 @@ def overview_page(df):
         """, unsafe_allow_html=True)
         return
     
-    # Enhanced Key Metrics Cards with Gen Z messaging
+    # About section
+    st.markdown('<h2 class="section-title">🌸 ACM-W ABESEC Chapter | Advancing Women in Computing</h2>', unsafe_allow_html=True)
+    st.markdown("""
+    <div class="metric-card animated-bg" style="padding: 1.5rem;">
+      <p class="text-dark" style="margin: 0; font-size: 1.05rem;">
+        The ACM-W ABESEC Chapter is a dynamic and inclusive community dedicated to supporting and advancing women in computing at ABES Engineering College. As part of the global ACM-W network, the chapter focuses on fostering technical excellence, leadership, and meaningful societal impact.
+      </p>
+      <p class="text-dark" style="margin: 0.5rem 0 0 0; font-size: 1.05rem;">
+        Driven by the vision to build a future where every woman in computing feels confident, capable, and celebrated; the chapter empowers members to drive meaningful change and shape tomorrow's technology.
+      </p>
+      <p class="text-dark" style="margin: 0.5rem 0 0 0; font-size: 1.05rem;">
+        Through a blend of mentorship, community outreach, and skill development, the chapter creates opportunities for women to grow both professionally and personally. From organizing technical workshops, speaker sessions, and coding events to leading community service initiatives, the chapter encourages members to lead with purpose and contribute to a more inclusive and socially responsible tech ecosystem.
+      </p>
+      <ul style="margin: 0.75rem 0 0 1rem; color: #2c3e50;">
+        <li><strong>Empowerment</strong>: Creating a support system through peer mentorship, leadership opportunities, and visibility for women in computing.</li>
+        <li><strong>Education</strong>: Delivering practical learning experiences through technical training, industry interaction, and hands-on sessions.</li>
+        <li><strong>Community Engagement</strong>: Using technology to give back through outreach, awareness drives, and service-based projects that solve real-world challenges.</li>
+      </ul>
+      <p class="text-dark" style="margin: 0.75rem 0 0 0; font-size: 1.05rem;">
+        The ACM-W ABESEC Chapter believes that when women lead with knowledge and empathy, they not only elevate their own careers but also shape a better future for all.
+      </p>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Key metrics
     st.markdown('<h2 class="section-title">📊 Key Insights at a Glance</h2>', unsafe_allow_html=True)
     
     col1, col2, col3, col4 = st.columns(4)
@@ -590,180 +659,23 @@ def overview_page(df):
         </div>
         """, unsafe_allow_html=True)
     
+    # Minimal download action
+    csv_data = df.to_csv(index=False)
+    left_pad, center_dl, right_pad = st.columns([1, 2, 1])
+    with center_dl:
+        st.download_button("📥 Download CSV", csv_data, "she_speaks_responses.csv", "text/csv")
+    
+    # Spacer
     st.markdown("<br>", unsafe_allow_html=True)
-    
-    # New Section: Quick Stats with Gen Z vibes
-    st.markdown('<h2 class="section-title">⚡ Quick Stats & Vibes</h2>', unsafe_allow_html=True)
-    
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
-        # Recent Activity
-        recent_count = len(df) if len(df) > 0 else 0
-        recent_emoji = "🚀" if recent_count > 0 else "⏳"
-        st.markdown(f"""
-        <div class="metric-card animated-bg" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
-            <div style="text-align: center;">
-                <div style="font-size: 2rem; margin-bottom: 0.5rem;">{recent_emoji}</div>
-                <div style="font-size: 1.5rem; font-weight: 700; color: #2c3e50;">{recent_count}</div>
-                <div style="font-size: 1rem; color: #34495e; margin-top: 0.3rem;">Total Responses</div>
-                <div style="font-size: 0.8rem; color: #7f8c8d; margin-top: 0.2rem;">✨ Every voice counts ✨</div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with col2:
-        # Year Distribution
-        if 'year' in df.columns and not df['year'].isna().all():
-            year_counts = df['year'].dropna().value_counts()
-            most_common_year = year_counts.index[0] if len(year_counts) > 0 else "N/A"
-        else:
-            most_common_year = "N/A"
-        
-        st.markdown(f"""
-        <div class="metric-card animated-bg" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
-            <div style="text-align: center;">
-                <div style="font-size: 2rem; margin-bottom: 0.5rem;">🎓</div>
-                <div style="font-size: 1.5rem; font-weight: 700;">{most_common_year}</div>
-                <div style="font-size: 1rem; margin-top: 0.3rem;">Most Active Year</div>
-                <div style="font-size: 0.8rem; opacity: 0.8; margin-top: 0.2rem;">🌟 Leading the charge 🌟</div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with col3:
-        # Course Diversity
-        if 'course' in df.columns and not df['course'].isna().all():
-            course_counts = df['course'].dropna().value_counts()
-            unique_courses = len(course_counts)
-        else:
-            unique_courses = 0
-        
-        st.markdown(f"""
-        <div class="metric-card animated-bg" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white;">
-            <div style="text-align: center;">
-                <div style="font-size: 2rem; margin-bottom: 0.5rem;">📚</div>
-                <div style="font-size: 1.5rem; font-weight: 700;">{unique_courses}</div>
-                <div style="font-size: 1rem; margin-top: 0.3rem;">Different Courses</div>
-                <div style="font-size: 0.8rem; opacity: 0.8; margin-top: 0.2rem;">💫 Diverse perspectives 💫</div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    st.markdown("<br>", unsafe_allow_html=True)
-    
-    # Enhanced Filters Section with Gen Z messaging
-    st.markdown("""
-    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 1.5rem; border-radius: 15px; margin-bottom: 2rem; color: white; box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);">
-        <div style="text-align: center; margin-bottom: 1rem;">
-            <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🔍</div>
-            <p style="margin: 0; font-weight: 600; font-size: 1.1rem;">Filter & Explore Your Data ✨</p>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    col1, col2, col3, col4 = st.columns(4)
-    
-    with col1:
-        year_options = ["All Years"]
-        if 'year' in df.columns and not df['year'].isna().all():
-            year_options.extend(list(df['year'].dropna().unique()))
-        year_filter = st.selectbox("🎓 Filter by Year", year_options)
-    
-    with col2:
-        mood_range = st.slider("😊 Mood Score Range", 1.0, 5.0, (1.0, 5.0), 0.5)
-    
-    with col3:
-        judged_options = ["All"]
-        if 'judged' in df.columns and not df['judged'].isna().all():
-            judged_options.extend(list(df['judged'].dropna().unique()))
-        judged_filter = st.selectbox("🤔 Felt Judged?", judged_options)
-    
-    with col4:
-        course_options = ["All Courses"]
-        if 'course' in df.columns and not df['course'].isna().all():
-            course_options.extend(list(df['course'].dropna().unique()))
-        course_filter = st.selectbox("📚 Filter by Course", course_options)
-    
-    # Apply filters
-    filtered_df = df.copy()
-    if year_filter != "All Years":
-        filtered_df = filtered_df[filtered_df['year'] == year_filter]
-    if judged_filter != "All":
-        filtered_df = filtered_df[filtered_df['judged'] == judged_filter]
-    if course_filter != "All Courses":
-        filtered_df = filtered_df[filtered_df['course'] == course_filter]
-    
-    # Show filtered results
-    if len(filtered_df) != len(df):
-        st.markdown(f"""
-        <div style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); padding: 1rem; border-radius: 12px; margin-bottom: 1rem; border: 2px solid #ff6b9d; box-shadow: 0 8px 20px rgba(255, 107, 157, 0.15);">
-            <div style="text-align: center;">
-                <p style="margin: 0; color: #2c3e50; font-size: 1rem; font-weight: 600;">
-                    🔍 Showing <span style="color: #e91e63; font-weight: 700;">{len(filtered_df)}</span> of <span style="color: #e91e63; font-weight: 700;">{len(df)}</span> responses
-                </p>
-                <div style="margin-top: 0.3rem; font-size: 0.8rem; color: #7f8c8d;">✨ Filtered just for you ✨</div>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    # Enhanced Quick Actions with Gen Z messaging
-    st.markdown("""
-    <div style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); padding: 1.5rem; border-radius: 15px; margin-bottom: 2rem; border: 2px solid #ff6b9d; box-shadow: 0 10px 25px rgba(255, 107, 157, 0.15);">
-        <div style="text-align: center; margin-bottom: 1rem;">
-            <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">⚡</div>
-            <p style="margin: 0; font-weight: 600; font-size: 1.1rem; color: #2c3e50;">Quick Actions & Downloads 🚀</p>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    col1, col2, col3, col4 = st.columns(4)
-    
-    with col1:
-        if st.button("📥 Download CSV", key="download_csv", help="Export filtered data as CSV"):
-            csv = filtered_df.to_csv(index=False)
-            st.download_button("Download CSV", csv, "she_speaks_responses.csv", "text/csv")
-    
-    with col2:
-        if st.button("📊 Export Excel", key="export_excel", help="Export as Excel file"):
-            st.info("✨ Excel export feature coming soon! ✨")
-    
-    with col3:
-        if st.button("🔄 Refresh Data", key="refresh", help="Reload latest data"):
-            st.rerun()
-    
-    with col4:
-        if st.button("📈 View Trends", key="view_trends", help="See time-based trends"):
-            st.info("🚀 Trends analysis coming soon! 🚀")
     
     # New Section: Community Insights with Gen Z vibes
     st.markdown("<br>", unsafe_allow_html=True)
-    st.markdown('<h2 class="section-title">💫 Community Insights & Vibes</h2>', unsafe_allow_html=True)
-    
-    # Add descriptive text about the insights
-    st.markdown("""
-    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 1.5rem; border-radius: 15px; margin-bottom: 2rem; color: white; box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);">
-        <div style="text-align: center; margin-bottom: 1rem;">
-            <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">💡</div>
-            <p style="margin: 0; font-weight: 600; font-size: 1.1rem;">✨ AI-Powered Insights & Community Vibes ✨</p>
-            <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; opacity: 0.9;">Our smart analysis digs deep into your responses to uncover meaningful patterns and trends that help us understand the real challenges and opportunities for women in tech.</p>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown('<h2 class="section-title">💡 Key Insights</h2>', unsafe_allow_html=True)
     
     # Add Gen Z Insights Section
     insights = create_genz_insights(df)
     if insights:
-        st.markdown("""
-        <div style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); padding: 1.5rem; border-radius: 15px; margin-bottom: 2rem; border: 2px solid #ff6b9d; box-shadow: 0 10px 25px rgba(255, 107, 157, 0.15);">
-            <div style="text-align: center; margin-bottom: 1rem;">
-                <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">💡</div>
-                <p style="margin: 0; font-weight: 600; font-size: 1.1rem; color: #2c3e50;">✨ Key Insights & Vibes ✨</p>
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        # Display insights in a Gen Z style
+        # Display concise insights
         for i, insight in enumerate(insights, 1):
             st.markdown(f"""
             <div style="background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,255,255,0.8)); 
@@ -775,82 +687,7 @@ def overview_page(df):
                 </div>
             </div>
             """, unsafe_allow_html=True)
-    
-    # Top Courses Chart
-    st.markdown('<h2 class="section-title">📚 Community Representation</h2>', unsafe_allow_html=True)
-    
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        # Overview page - Top Courses Chart
-        if 'course' in df.columns and not df['course'].isna().all():
-            course_counts = df['course'].dropna().value_counts().head(5)
-            if len(course_counts) > 0:
-                fig = px.bar(x=course_counts.values, y=course_counts.index, orientation='h',
-                            title="📚 Top 5 Courses Represented",
-                            color_discrete_sequence=['#ff6b9d'])
-                fig.update_layout(
-                    plot_bgcolor='rgba(0,0,0,0)', 
-                    paper_bgcolor='rgba(0,0,0,0)',
-                    font=dict(size=14), 
-                    margin=dict(l=20, r=20, t=40, b=20),
-                    xaxis_title="Number of Students",
-                    yaxis_title="Course/Program"
-                )
-                st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-                st.plotly_chart(fig, use_container_width=True)
-                st.markdown('</div>', unsafe_allow_html=True)
-            else:
-                st.markdown("""
-                <div class="metric-card animated-bg" style="text-align: center; padding: 2rem;">
-                    <div style="font-size: 2rem; margin-bottom: 1rem;">📚</div>
-                    <p class="text-light">No course data available yet</p>
-                </div>
-                """, unsafe_allow_html=True)
-        else:
-            st.markdown("""
-            <div class="metric-card animated-bg" style="text-align: center; padding: 2rem;">
-                <div style="font-size: 2rem; margin-bottom: 1rem;">📚</div>
-                <p class="text-light">No course data available yet</p>
-            </div>
-            """, unsafe_allow_html=True)
-    
-    # Professional Features Section
-    st.markdown("<br>", unsafe_allow_html=True)
-    st.markdown('<h2 class="section-title">🚀 Professional Dashboard Features</h2>', unsafe_allow_html=True)
-    
-    genz_messages = get_genz_messages()
-    professional_features = genz_messages['professional_features']
-    
-    # Display professional features in a grid
-    cols = st.columns(4)
-    for i, feature in enumerate(professional_features):
-        with cols[i % 4]:
-            st.markdown(f"""
-            <div style="background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,255,255,0.9)); 
-            padding: 1.5rem; border-radius: 15px; text-align: center; margin-bottom: 1rem; 
-            border: 2px solid #e91e63; box-shadow: 0 8px 20px rgba(233, 30, 99, 0.15);">
-                <div style="font-size: 2rem; margin-bottom: 0.5rem;">{feature.split()[0]}</div>
-                <div style="font-size: 0.9rem; color: #2c3e50; font-weight: 600;">{' '.join(feature.split()[1:])}</div>
-            </div>
-            """, unsafe_allow_html=True)
-    
-
-    
-    # Final Call-to-Action with Gen Z vibes
-    st.markdown("<br>", unsafe_allow_html=True)
-    st.markdown("""
-    <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%); border-radius: 25px; color: white; box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);">
-        <div style="font-size: 3rem; margin-bottom: 1rem;">💫</div>
-        <p style="margin: 0; font-size: 1.3rem; font-weight: 600; margin-bottom: 0.5rem;">
-            Ready to dive deeper into the data? ✨
-        </p>
-        <p style="margin: 0; font-size: 1rem; opacity: 0.9; margin-bottom: 1.5rem;">
-            Explore different sections to uncover more insights and stories from our amazing community!
-        </p>
-        <div style="font-size: 1.5rem; margin-top: 1rem;">🚀 💫 ✨ 🌟</div>
-    </div>
-    """, unsafe_allow_html=True)
+    # End minimal overview content
 
 def who_are_you_page(df):
     """Section 1: Who Are You? - Basic demographics"""
@@ -1286,242 +1123,41 @@ def say_it_page(df):
         """, unsafe_allow_html=True)
         return
     
-    # Interactive filters
-    st.markdown('<h2 class="section-title">🔍 Filter Your Tea</h2>', unsafe_allow_html=True)
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
-        # Filter by year
-        if 'year' in df.columns:
-            years = sorted(df['year'].dropna().unique())
-            selected_year = st.selectbox("📅 Filter by Year", ["All Years"] + list(years))
-        else:
-            selected_year = "All Years"
-    
-    with col2:
-        # Filter by course
-        if 'course' in df.columns:
-            courses = sorted(df['course'].dropna().unique())
-            selected_course = st.selectbox("🎓 Filter by Course", ["All Courses"] + list(courses))
-        else:
-            selected_course = "All Courses"
-    
-    with col3:
-        # Filter by judgment experience
-        if 'judged' in df.columns:
-            judged_options = sorted(df['judged'].dropna().unique())
-            selected_judged = st.selectbox("⚖️ Filter by Judgment Experience", ["All"] + list(judged_options))
-        else:
-            selected_judged = "All"
-    
-    # Apply filters
-    filtered_df = df.copy()
-    if selected_year != "All Years":
-        filtered_df = filtered_df[filtered_df['year'] == selected_year]
-    if selected_course != "All Courses":
-        filtered_df = filtered_df[filtered_df['course'] == selected_course]
-    if selected_judged != "All":
-        filtered_df = filtered_df[filtered_df['judged'] == selected_judged]
-    
-    # Show filter summary
-    if len(filtered_df) != len(df):
-        st.markdown(f"""
-        <div class="metric-card animated-bg" style="text-align: center; margin-bottom: 2rem;">
-            <div style="font-size: 1.2rem; font-weight: 600; color: #e91e63;">🔍 Filtered Results</div>
-            <div style="font-size: 1rem; color: #7f8c8d;">Showing {len(filtered_df)} out of {len(df)} responses</div>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    # What held you back from reporting?
+    # Barriers to reporting (concise, human-centered)
     st.markdown('<h2 class="section-title">🤐 What Held You Back from Reporting?</h2>', unsafe_allow_html=True)
-    if 'held-back-report' in filtered_df.columns and not filtered_df['held-back-report'].isna().all():
-        # Simple word frequency analysis
-        all_text = ' '.join(filtered_df['held-back-report'].dropna().astype(str))
-        if all_text.strip():
-            words = re.findall(r'\b\w+\b', all_text.lower())
-            word_counts = Counter(words)
-            
-            # Remove common words
-            common_words = {'the', 'a', 'an', 'and', 'or', 'but', 'in', 'on', 'at', 'to', 'for', 'of', 'with', 'by', 'is', 'are', 'was', 'were', 'be', 'been', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could', 'should', 'may', 'might', 'must', 'can', 'i', 'you', 'he', 'she', 'it', 'we', 'they', 'me', 'him', 'her', 'us', 'them', 'my', 'your', 'his', 'her', 'its', 'our', 'their', 'mine', 'yours', 'hers', 'ours', 'theirs', 'this', 'that', 'these', 'those', 'am', 'is', 'are', 'was', 'were', 'be', 'been', 'being', 'have', 'has', 'had', 'do', 'does', 'did', 'will', 'would', 'could', 'should', 'may', 'might', 'must', 'can', 'shall', 'should', 'would', 'could', 'may', 'might', 'must', 'can'}
-            filtered_words = {word: count for word, count in word_counts.items() if word not in common_words and len(word) > 2}
-            
-            if filtered_words:
-                top_words = dict(sorted(filtered_words.items(), key=lambda x: x[1], reverse=True)[:10])
-                
-                # Create two columns for chart and analysis
-                col1, col2 = st.columns([2, 1])
-                
-                with col1:
-                    fig = px.bar(x=list(top_words.values()), y=list(top_words.keys()), orientation='h',
-                                title="🤐 Most Common Words in Reporting Barriers",
-                                color_discrete_sequence=['#e91e63'])
-                    fig.update_layout(
-                        plot_bgcolor='rgba(0,0,0,0)', 
-                        paper_bgcolor='rgba(0,0,0,0)',
-                        font=dict(size=14), 
-                        margin=dict(l=20, r=20, t=40, b=20),
-                        xaxis_title="Word Frequency",
-                        yaxis_title="Common Words"
+    if 'held-back-report' in df.columns and not df['held-back-report'].isna().all():
+        quotes = [str(x).strip() for x in df['held-back-report'].dropna().astype(str) if len(str(x).strip()) > 5]
+        if quotes:
+            st.markdown(f"{len(quotes)} responses")
+            col_a, col_b = st.columns(2)
+            card_css = (
+                "background:#fff;border:1px solid #eee;border-left:4px solid #e91e63;"
+                "border-radius:10px;padding:0.9rem;margin-bottom:0.8rem;box-shadow:0 3px 10px rgba(0,0,0,0.04);"
+            )
+            for i, q in enumerate(quotes[:20], 1):
+                with (col_a if i % 2 else col_b):
+                    st.markdown(
+                        f"""
+                        <div style=\"{card_css}\">“{q}”</div>
+                        """,
+                        unsafe_allow_html=True,
                     )
-                    st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-                    st.plotly_chart(fig, use_container_width=True)
-                    st.markdown('</div>', unsafe_allow_html=True)
-                
-                with col2:
-                    # Analysis insights
-                    st.markdown("""
-                    <div class="metric-card animated-bg" style="padding: 1.5rem;">
-                        <h3 style="color: #e91e63; margin-bottom: 1rem;">🔍 Text Analysis</h3>
-                    """, unsafe_allow_html=True)
-                    
-                    # Calculate insights
-                    total_responses = len(filtered_df['held-back-report'].dropna())
-                    most_common_word = list(top_words.keys())[0] if top_words else "N/A"
-                    most_common_count = list(top_words.values())[0] if top_words else 0
-                    
-                    # Identify themes with more comprehensive word lists
-                    fear_words = ['fear', 'afraid', 'scared', 'worried', 'anxiety', 'nervous', 'worried', 'backlash', 'blamed', 'judged']
-                    confidence_words = ['confidence', 'sure', 'certain', 'confident', 'doubt', 'unsure', 'minor', 'normal']
-                    support_words = ['support', 'help', 'guidance', 'mentor', 'procedure', 'evidence', 'proof']
-                    safety_words = ['safe', 'safety', 'isolation', 'trouble', 'career', 'opportunities']
-                    
-                    fear_count = sum(count for word, count in top_words.items() if word in fear_words)
-                    confidence_count = sum(count for word, count in top_words.items() if word in confidence_words)
-                    support_count = sum(count for word, count in top_words.items() if word in support_words)
-                    safety_count = sum(count for word, count in top_words.items() if word in safety_words)
-                    
-                    st.markdown(f"""
-                    <div style="margin-bottom: 1rem;">
-                        <div style="font-weight: 600; color: #2c3e50;">📊 Total Responses</div>
-                        <div style="color: #7f8c8d;">{total_responses} students</div>
-                    </div>
-                    <div style="margin-bottom: 1rem;">
-                        <div style="font-weight: 600; color: #2c3e50;">🔥 Most Common Word</div>
-                        <div style="color: #7f8c8d;">"{most_common_word}" ({most_common_count} mentions)</div>
-                    </div>
-                    <div style="margin-bottom: 1rem;">
-                        <div style="font-weight: 600; color: #2c3e50;">😰 Fear/Safety Concerns</div>
-                        <div style="color: #7f8c8d;">{fear_count + safety_count} mentions</div>
-                    </div>
-                    <div style="margin-bottom: 1rem;">
-                        <div style="font-weight: 600; color: #2c3e50;">💪 Confidence/Self-doubt</div>
-                        <div style="color: #7f8c8d;">{confidence_count} mentions</div>
-                    </div>
-                    <div style="margin-bottom: 1rem;">
-                        <div style="font-weight: 600; color: #2c3e50;">🤝 Support/Procedure Issues</div>
-                        <div style="color: #7f8c8d;">{support_count} mentions</div>
-                    </div>
-                    </div>
-                    """, unsafe_allow_html=True)
-                
-                # Deep dive analysis
-                st.markdown('<h3 class="section-title">🔍 What This Data Reveals</h3>', unsafe_allow_html=True)
-                
-                # Calculate total mentions for context
-                total_mentions = sum(top_words.values()) if top_words else 0
-                
-                # Generate insights based on patterns
-                insights = []
-                
-                # Fear and safety analysis
-                if fear_count > 0:
-                    fear_percentage = (fear_count / total_mentions) * 100 if total_mentions > 0 else 0
-                    if fear_percentage > 30:
-                        insights.append("😰 <strong>High Fear Environment:</strong> Students are primarily held back by fear of consequences, suggesting a culture of intimidation")
-                    elif fear_percentage > 15:
-                        insights.append("😰 <strong>Fear Barriers:</strong> Fear is a significant factor preventing students from reporting issues")
-                
-                # Safety concerns analysis
-                if safety_count > 0:
-                    safety_percentage = (safety_count / total_mentions) * 100 if total_mentions > 0 else 0
-                    if safety_percentage > 20:
-                        insights.append("🛡️ <strong>Career Safety Concerns:</strong> Students fear reporting will impact their career opportunities and social standing")
-                    elif safety_percentage > 10:
-                        insights.append("🛡️ <strong>Isolation Fears:</strong> Students worry about being isolated or getting others in trouble")
-                
-                # Confidence analysis
-                if confidence_count > 0:
-                    confidence_percentage = (confidence_count / total_mentions) * 100 if total_mentions > 0 else 0
-                    if confidence_percentage > 25:
-                        insights.append("💪 <strong>Confidence Crisis:</strong> Students lack confidence in their judgment about what's worth reporting")
-                    elif confidence_percentage > 10:
-                        insights.append("💪 <strong>Self-Doubt:</strong> Students question whether their experiences are significant enough to report")
-                
-                # Support gaps analysis
-                if support_count > 0:
-                    support_percentage = (support_count / total_mentions) * 100 if total_mentions > 0 else 0
-                    if support_percentage > 20:
-                        insights.append("🤝 <strong>Systemic Support Gaps:</strong> Students don't know procedures or whom to approach for help")
-                    elif support_percentage > 10:
-                        insights.append("🤝 <strong>Information Gaps:</strong> Students lack clear guidance on reporting processes")
-                
-                # Overall pattern analysis
-                if total_mentions > 0:
-                    if fear_count + safety_count > confidence_count + support_count:
-                        insights.append("🚨 <strong>Safety-First Culture:</strong> Students prioritize personal safety over institutional support")
-                    else:
-                        insights.append("📚 <strong>Support-Seeking Culture:</strong> Students are looking for guidance rather than fearing consequences")
-                
-                # Display insights in a more engaging way
-                col1, col2 = st.columns(2)
-                
-                with col1:
-                    st.markdown("""
-                    <div class="metric-card animated-bg" style="padding: 1.5rem;">
-                        <h4 style="color: #e91e63; margin-bottom: 1rem;">🎯 Key Patterns</h4>
-                    """, unsafe_allow_html=True)
-                    
-                    for i, insight in enumerate(insights[:len(insights)//2]):
-                        st.markdown(f"""
-                        <div style="margin-bottom: 0.5rem; padding: 0.5rem; background: rgba(233, 30, 99, 0.1); border-radius: 5px;">
-                            <div style="color: #2c3e50; font-size: 0.9rem;">{insight}</div>
-                        </div>
-                        """, unsafe_allow_html=True)
-                
-                with col2:
-                    st.markdown("""
-                    <div class="metric-card animated-bg" style="padding: 1.5rem;">
-                        <h4 style="color: #e91e63; margin-bottom: 1rem;">💡 Implications</h4>
-                    """, unsafe_allow_html=True)
-                    
-                    for i, insight in enumerate(insights[len(insights)//2:]):
-                        st.markdown(f"""
-                        <div style="margin-bottom: 0.5rem; padding: 0.5rem; background: rgba(255, 107, 157, 0.1); border-radius: 5px;">
-                            <div style="color: #2c3e50; font-size: 0.9rem;">{insight}</div>
-                        </div>
-                        """, unsafe_allow_html=True)
-            else:
-                st.markdown("""
-                <div class="metric-card animated-bg" style="text-align: center; padding: 2rem;">
-                    <div style="font-size: 2rem; margin-bottom: 1rem;">🤐</div>
-                    <p class="text-light">No meaningful text data available yet</p>
-                </div>
-                """, unsafe_allow_html=True)
         else:
-            st.markdown("""
-            <div class="metric-card animated-bg" style="text-align: center; padding: 2rem;">
-                <div style="font-size: 2rem; margin-bottom: 1rem;">🤐</div>
-                <p class="text-light">No reporting data available yet</p>
-            </div>
-            """, unsafe_allow_html=True)
+            st.info("No reporting barriers shared yet.")
     else:
-        st.markdown("""
-        <div class="metric-card animated-bg" style="text-align: center; padding: 2rem;">
-            <div style="font-size: 2rem; margin-bottom: 1rem;">🤐</div>
-            <p class="text-light">No reporting data available yet</p>
-        </div>
-        """, unsafe_allow_html=True)
+        st.info("No reporting data available yet.")
     
     # One thing you'd change
     st.markdown('<h2 class="section-title">✨ One Thing You\'d Change</h2>', unsafe_allow_html=True)
-    if 'one-change' in filtered_df.columns and not filtered_df['one-change'].isna().all():
+    if 'one-change' in df.columns and not df['one-change'].isna().all():
         # Simple word frequency analysis
-        all_text = ' '.join(filtered_df['one-change'].dropna().astype(str))
+        all_text = ' '.join(df['one-change'].dropna().astype(str))
         if all_text.strip():
             words = re.findall(r'\b\w+\b', all_text.lower())
             word_counts = Counter(words)
             
             # Remove common words
+            common_words = {'the','a','an','and','or','but','in','on','at','to','for','of','with','by','is','are','was','were','be','been','have','has','had','do','does','did','will','would','could','should','may','might','must','can','i','you','he','she','it','we','they','me','him','her','us','them','my','your','his','its','our','their','mine','yours','hers','ours','theirs','this','that','these','those','being','shall'}
             filtered_words = {word: count for word, count in word_counts.items() if word not in common_words and len(word) > 2}
             
             if filtered_words:
@@ -1554,7 +1190,7 @@ def say_it_page(df):
                     """, unsafe_allow_html=True)
                     
                     # Calculate insights
-                    total_responses = len(filtered_df['one-change'].dropna())
+                    total_responses = len(df['one-change'].dropna())
                     most_common_word = list(top_words.keys())[0] if top_words else "N/A"
                     most_common_count = list(top_words.values())[0] if top_words else 0
                     
@@ -1651,13 +1287,7 @@ def say_it_page(df):
                     <p class="text-light">No meaningful change data available yet</p>
                 </div>
                 """, unsafe_allow_html=True)
-            '''else:
-                st.markdown("""
-                <div class="metric-card animated-bg" style="text-align: center; padding: 2rem;">
-                    <div style="font-size: 2rem; margin-bottom: 1rem;">✨</div>
-                    <p class="text-light">No change data available yet</p>
-                </div>
-                """, unsafe_allow_html=True)'''
+            
         else:
             st.markdown("""
             <div class="metric-card animated-bg" style="text-align: center; padding: 2rem;">
@@ -1674,15 +1304,15 @@ def say_it_page(df):
         """, unsafe_allow_html=True)
     
     # Summary insights for Tea Spill
-    if not filtered_df.empty:
+    if not df.empty:
         st.markdown('<h2 class="section-title">💡 Tea Spill Summary</h2>', unsafe_allow_html=True)
         
         # Calculate overall insights
-        total_responses = len(filtered_df)
+        total_responses = len(df)
         
         # Reporting barriers analysis
-        reporting_data = filtered_df['held-back-report'].dropna() if 'held-back-report' in filtered_df.columns else []
-        change_data = filtered_df['one-change'].dropna() if 'one-change' in filtered_df.columns else []
+        reporting_data = df['held-back-report'].dropna() if 'held-back-report' in df.columns else []
+        change_data = df['one-change'].dropna() if 'one-change' in df.columns else []
         
         col1, col2, col3 = st.columns(3)
         
@@ -1750,7 +1380,7 @@ def say_it_page(df):
         st.markdown('<h3 class="section-title">📋 Survey Summary & Implications</h3>', unsafe_allow_html=True)
         
         # Calculate key metrics
-        total_responses = len(filtered_df)
+        total_responses = len(df)
         reporting_responses = len(reporting_data)
         change_responses = len(change_data)
         
@@ -1825,22 +1455,221 @@ def say_it_page(df):
                 </div>
                 """, unsafe_allow_html=True)
         
-        # Action recommendations
-        st.markdown('<h3 class="section-title">🚀 Action Recommendations</h3>', unsafe_allow_html=True)
+        # Action recommendations (comprehensive)
+        tea_recommendations = []
         
-        st.markdown("""
-        <div class="metric-card animated-bg" style="padding: 2rem;">
-            <h4 style="color: #e91e63; margin-bottom: 1rem;">🎯 Based on Tea Spill Analysis</h4>
-            <div style="color: #2c3e50; margin-bottom: 1rem;">
-                <p><strong>1. Address Reporting Barriers:</strong> Focus on creating safe, confidential reporting mechanisms</p>
-                <p><strong>2. Implement Suggested Changes:</strong> Prioritize the most frequently mentioned improvements</p>
-                <p><strong>3. Build Trust:</strong> Create an environment where students feel comfortable sharing concerns</p>
+        # Fear and safety recommendations
+        fear_count = 0
+        safety_count = 0
+        confidence_count = 0
+        support_count = 0
+        total_mentions = 0
+        if 'held-back-report' in df.columns and not df['held-back-report'].isna().all():
+            words = re.findall(r'\b\w+\b', ' '.join(df['held-back-report'].dropna().astype(str)).lower())
+            word_counts = Counter(words)
+            fear_words = {'fear','afraid','scared','worried','anxiety','nervous','backlash','blamed','judged'}
+            confidence_words = {'confidence','confident','doubt','unsure','minor','normal'}
+            support_words_set = {'support','help','guidance','mentor','procedure','evidence','proof'}
+            safety_words = {'safe','safety','isolation','trouble','career','opportunities'}
+            fear_count = sum(count for word, count in word_counts.items() if word in fear_words)
+            confidence_count = sum(count for word, count in word_counts.items() if word in confidence_words)
+            support_count = sum(count for word, count in word_counts.items() if word in support_words_set)
+            safety_count = sum(count for word, count in word_counts.items() if word in safety_words)
+            total_mentions = sum(word_counts.values())
+
+        if fear_count > 0:
+            fear_percentage = (fear_count / total_mentions) * 100 if total_mentions > 0 else 0
+            if fear_percentage > 30:
+                tea_recommendations.append({
+                    "icon": "😰",
+                    "priority": "🔥 CRITICAL",
+                    "title": "Fear Culture Alert!",
+                    "action": "Create a zero-tolerance policy for retaliation",
+                    "description": f"{fear_percentage:.1f}% of barriers are fear-based. Students are literally afraid to speak up!",
+                    "urgency": "high"
+                })
+            else:
+                tea_recommendations.append({
+                    "icon": "😰",
+                    "priority": "💡 Important",
+                    "title": "Address Fear Barriers",
+                    "action": "Build confidence through safe reporting channels",
+                    "description": f"{fear_percentage:.1f}% mention fear - let's make them feel safe!",
+                    "urgency": "medium"
+                })
+        
+        # Safety concerns recommendations
+        if safety_count > 0:
+            safety_percentage = (safety_count / total_mentions) * 100 if total_mentions > 0 else 0
+            if safety_percentage > 20:
+                tea_recommendations.append({
+                    "icon": "🛡️",
+                    "priority": "🔥 CRITICAL",
+                    "title": "Career Protection Needed!",
+                    "action": "Implement whistleblower protection policies",
+                    "description": f"{safety_percentage:.1f}% fear career impact. We need to protect their futures!",
+                    "urgency": "high"
+                })
+            else:
+                tea_recommendations.append({
+                    "icon": "🛡️",
+                    "priority": "💡 Important",
+                    "title": "Safety First",
+                    "action": "Ensure reporting doesn't affect opportunities",
+                    "description": f"{safety_percentage:.1f}% worry about career impact - let's protect them!",
+                    "urgency": "medium"
+                })
+        
+        # Confidence issues recommendations
+        if confidence_count > 0:
+            confidence_percentage = (confidence_count / total_mentions) * 100 if total_mentions > 0 else 0
+            if confidence_percentage > 25:
+                tea_recommendations.append({
+                    "icon": "💪",
+                    "priority": "🔥 CRITICAL",
+                    "title": "Confidence Crisis!",
+                    "action": "Launch confidence-building workshops and validation programs",
+                    "description": f"{confidence_percentage:.1f}% lack confidence in their judgment. They need validation!",
+                    "urgency": "high"
+                })
+            else:
+                tea_recommendations.append({
+                    "icon": "💪",
+                    "priority": "💡 Important",
+                    "title": "Build Confidence",
+                    "action": "Create validation and support systems",
+                    "description": f"{confidence_percentage:.1f}% need confidence boost - let's empower them!",
+                    "urgency": "medium"
+                })
+        
+        # Support gaps recommendations
+        if support_count > 0:
+            support_percentage = (support_count / total_mentions) * 100 if total_mentions > 0 else 0
+            if support_percentage > 20:
+                tea_recommendations.append({
+                    "icon": "🤝",
+                    "priority": "🔥 CRITICAL",
+                    "title": "Support System Missing!",
+                    "action": "Create clear reporting procedures and support networks",
+                    "description": f"{support_percentage:.1f}% don't know procedures. They need clear guidance!",
+                    "urgency": "high"
+                })
+            else:
+                tea_recommendations.append({
+                    "icon": "🤝",
+                    "priority": "💡 Important",
+                    "title": "Better Support",
+                    "action": "Improve reporting procedures and guidance",
+                    "description": f"{support_percentage:.1f}% need better support - let's guide them!",
+                    "urgency": "medium"
+                })
+        
+        # Also incorporate "one-change" themes into actions
+        if 'one-change' in df.columns and not df['one-change'].isna().all():
+            change_words = re.findall(r'\b\w+\b', ' '.join(df['one-change'].dropna().astype(str)).lower())
+            change_counts = Counter(change_words)
+            oc_culture = {'culture','environment','atmosphere','community','inclusive','respect','bias'}
+            oc_support = {'support','help','mentorship','mentor','guidance','resources','ally'}
+            oc_policy = {'policy','rules','regulations','curfew','restriction','transparent','selections'}
+            oc_education = {'education','training','workshop','course','learning','session','bootcamp'}
+            culture_count = sum(count for w, count in change_counts.items() if w in oc_culture)
+            support_count = sum(count for w, count in change_counts.items() if w in oc_support)
+            policy_count = sum(count for w, count in change_counts.items() if w in oc_policy)
+            education_count = sum(count for w, count in change_counts.items() if w in oc_education)
+
+            def classify_level(count: int, total: int, hi: float, mid: float):
+                ratio = (count / total) * 100 if total > 0 else 0
+                if ratio >= hi:
+                    return 'high', ratio
+                if ratio >= mid:
+                    return 'medium', ratio
+                return 'low', ratio
+
+            level, ratio = classify_level(culture_count, total_responses, 20, 10)
+            if culture_count > 0:
+                tea_recommendations.append({
+                    "icon": "🌍",
+                    "priority": "🔥 CRITICAL" if level=='high' else ("💡 Important" if level=='medium' else "➡️ Next Step"),
+                    "title": "Culture & Inclusion",
+                    "action": "Run bias-awareness drives; set up inclusion guilds; publish a code of conduct",
+                    "description": f"Culture-related asks appear in ~{ratio:.1f}% of responses.",
+                    "urgency": level
+                })
+
+            level, ratio = classify_level(support_count, total_responses, 20, 10)
+            if support_count > 0:
+                tea_recommendations.append({
+                    "icon": "🤝",
+                    "priority": "🔥 CRITICAL" if level=='high' else ("💡 Important" if level=='medium' else "➡️ Next Step"),
+                    "title": "Mentorship & Support",
+                    "action": "Launch women-mentor circles; office hours; peer support channels",
+                    "description": f"Support/mentorship themes in ~{ratio:.1f}% of responses.",
+                    "urgency": level
+                })
+
+            level, ratio = classify_level(policy_count, total_responses, 15, 8)
+            if policy_count > 0:
+                tea_recommendations.append({
+                    "icon": "📋",
+                    "priority": "🔥 CRITICAL" if level=='high' else ("💡 Important" if level=='medium' else "➡️ Next Step"),
+                    "title": "Policy & Transparency",
+                    "action": "Review curfew impact; publish transparent selection criteria; set SLAs for reports",
+                    "description": f"Policy/transparency needs in ~{ratio:.1f}% of responses.",
+                    "urgency": level
+                })
+
+            level, ratio = classify_level(education_count, total_responses, 20, 10)
+            if education_count > 0:
+                tea_recommendations.append({
+                    "icon": "📚",
+                    "priority": "🔥 CRITICAL" if level=='high' else ("💡 Important" if level=='medium' else "➡️ Next Step"),
+                    "title": "Education & Upskilling",
+                    "action": "Host hands-on workshops, #HourOfCode drives, and beginner-friendly tracks",
+                    "description": f"Education/upskilling appears in ~{ratio:.1f}% of responses.",
+                    "urgency": level
+                })
+        
+        urgent_count = sum(1 for rec in tea_recommendations if rec["urgency"] == "high")
+        important_count = sum(1 for rec in tea_recommendations if rec["urgency"] == "medium")
+        next_count = sum(1 for rec in tea_recommendations if rec["urgency"] == "low")
+
+        if tea_recommendations:
+            st.markdown('<h3 class="section-title">🚀 Time to Take Action!</h3>', unsafe_allow_html=True)
+            st.markdown(f"""
+            <div class="metric-card animated-bg" style="padding: 2rem;">
+                <h4 style="color: #e91e63; margin-bottom: 1rem;">🎯 The Real Tea: What's Holding Students Back</h4>
+                <p style="color: #2c3e50; margin-bottom: 1rem;">
+                    Based on the unfiltered truth from <strong>{total_responses} students</strong>, here's what we need to fix:
+                </p>
+                <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+                    <span style="background:#e91e63; color:#fff; padding:0.25rem 0.6rem; border-radius:999px; font-weight:700;">Critical {urgent_count}</span>
+                    <span style="background:#ff6b9d; color:#fff; padding:0.25rem 0.6rem; border-radius:999px; font-weight:700;">Important {important_count}</span>
+                    <span style="background:#9c27b0; color:#fff; padding:0.25rem 0.6rem; border-radius:999px; font-weight:700;">Next steps {next_count}</span>
+                </div>
             </div>
-            <div style="background: linear-gradient(45deg, #e91e63, #ff6b9d); padding: 1rem; border-radius: 10px; color: white;">
-                <strong>Next Steps:</strong> Use these insights to develop targeted interventions and support systems.
-            </div>
-        </div>
-        """, unsafe_allow_html=True)
+            """, unsafe_allow_html=True)
+            for rec in tea_recommendations:
+                urgency_color = "#e91e63" if rec["urgency"] == "high" else "#ff6b9d" if rec["urgency"] == "medium" else "#9c27b0"
+                urgency_bg = "rgba(233, 30, 99, 0.1)" if rec["urgency"] == "high" else "rgba(255, 107, 157, 0.1)" if rec["urgency"] == "medium" else "rgba(156, 39, 176, 0.1)"
+                st.markdown(f"""
+                <div class="metric-card animated-bg" style="padding: 1.5rem; margin-bottom: 1.5rem; border-left: 4px solid {urgency_color};">
+                    <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                        <div style="font-size: 2rem; margin-right: 1rem;">{rec["icon"]}</div>
+                        <div>
+                            <div style="font-weight: 700; color: {urgency_color}; font-size: 1.1rem;">{rec["priority"]}</div>
+                            <div style="font-weight: 600; color: #2c3e50; font-size: 1.2rem;">{rec["title"]}</div>
+                        </div>
+                    </div>
+                    <div style="color: #2c3e50; font-size: 1rem; margin-bottom: 0.5rem;">
+                        <strong>Action:</strong> {rec["action"]}
+                    </div>
+                    <div style="color: #7f8c8d; font-size: 0.9rem; background: {urgency_bg}; padding: 0.5rem; border-radius: 5px;">
+                        {rec["description"]}
+                    </div>
+                </div>
+                """, unsafe_allow_html=True)
+        else:
+            st.info("Collect more responses to generate action items.")
 
 def quick_picks_page(df):
     """Section 5: Vibes Check - Multi-select analysis with Gen Z flair"""
@@ -1862,58 +1691,11 @@ def quick_picks_page(df):
         """, unsafe_allow_html=True)
         return
     
-    # Interactive filters
-    st.markdown('<h2 class="section-title">🔍 Filter Your Vibes</h2>', unsafe_allow_html=True)
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
-        # Filter by year
-        if 'year' in df.columns:
-            years = sorted(df['year'].dropna().unique())
-            selected_year = st.selectbox("📅 Filter by Year", ["All Years"] + list(years))
-        else:
-            selected_year = "All Years"
-    
-    with col2:
-        # Filter by course
-        if 'course' in df.columns:
-            courses = sorted(df['course'].dropna().unique())
-            selected_course = st.selectbox("🎓 Filter by Course", ["All Courses"] + list(courses))
-        else:
-            selected_course = "All Courses"
-    
-    with col3:
-        # Filter by voice comfort
-        if 'voice' in df.columns:
-            voice_options = sorted(df['voice'].dropna().unique())
-            selected_voice = st.selectbox("🗣️ Filter by Voice Comfort", ["All"] + list(voice_options))
-        else:
-            selected_voice = "All"
-    
-    # Apply filters
-    filtered_df = df.copy()
-    if selected_year != "All Years":
-        filtered_df = filtered_df[filtered_df['year'] == selected_year]
-    if selected_course != "All Courses":
-        filtered_df = filtered_df[filtered_df['course'] == selected_course]
-    if selected_voice != "All":
-        filtered_df = filtered_df[filtered_df['voice'] == selected_voice]
-    
-    # Show filter summary
-    if len(filtered_df) != len(df):
-        st.markdown(f"""
-        <div class="metric-card animated-bg" style="text-align: center; margin-bottom: 2rem;">
-            <div style="font-size: 1.2rem; font-weight: 600; color: #e91e63;">🔍 Filtered Results</div>
-            <div style="font-size: 1rem; color: #7f8c8d;">Showing {len(filtered_df)} out of {len(df)} responses</div>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    # What would help girls in tech?
+    # What would help girls in tech? (compact ranking)
     st.markdown('<h2 class="section-title">🚀 What Would Help Girls in Tech?</h2>', unsafe_allow_html=True)
-    if 'help' in filtered_df.columns and not filtered_df['help'].isna().all():
-        # Parse help responses
+    if 'help' in df.columns and not df['help'].isna().all():
         help_responses = []
-        for response in filtered_df['help'].dropna():
+        for response in df['help'].dropna():
             if isinstance(response, list):
                 help_responses.extend(response)
             elif isinstance(response, str):
@@ -1921,88 +1703,16 @@ def quick_picks_page(df):
         
         if help_responses:
             help_counts = Counter(help_responses)
-            # Calculate percentages
-            total_responses = len(filtered_df)
-            help_percentages = {item: (count / total_responses) * 100 for item, count in help_counts.items()}
+            total_responses = len(df)
+            ranked = sorted(((label, (count/total_responses)*100) for label, count in help_counts.items()), key=lambda x: x[1], reverse=True)
+
+            # Compact top 5 ranking list
+            st.markdown("Top priorities (by share of responses):")
+            for i, (label, pct) in enumerate(ranked[:5], 1):
+                st.markdown(f"{i}. {label} — {pct:.1f}%")
             
-            # Sort by percentage
-            sorted_help = dict(sorted(help_percentages.items(), key=lambda x: x[1], reverse=True))
-            
-            # Create two columns for chart and analysis
-            col1, col2 = st.columns([2, 1])
-            
-            with col1:
-                fig = px.bar(x=list(sorted_help.values()), y=list(sorted_help.keys()), orientation='h',
-                            title="🚀 Community Priorities: What Would Help Girls in Tech?",
-                            color_discrete_sequence=['#e91e63'])
-                fig.update_layout(
-                    plot_bgcolor='rgba(0,0,0,0)', 
-                    paper_bgcolor='rgba(0,0,0,0)',
-                    font=dict(size=14), 
-                    margin=dict(l=20, r=20, t=40, b=20),
-                    xaxis_title="Percentage of Students (%)",
-                    yaxis_title="Support Categories"
-                )
-                st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-                st.plotly_chart(fig, use_container_width=True)
-                st.markdown('</div>', unsafe_allow_html=True)
-            
-            with col2:
-                # Analysis insights
-                st.markdown("""
-                <div class="metric-card animated-bg" style="padding: 1.5rem;">
-                    <h3 style="color: #e91e63; margin-bottom: 1rem;">🔍 Priority Analysis</h3>
-                """, unsafe_allow_html=True)
-                
-                # Calculate insights
-                top_priority = list(sorted_help.keys())[0] if sorted_help else "N/A"
-                top_percentage = list(sorted_help.values())[0] if sorted_help else 0
-                
-                # Show all available options and their percentages
-                all_options = {
-                    'all-girls-teams': 'All-girls tech teams',
-                    'women-mentors': 'Women tech mentors/speakers', 
-                    'late-night-access': 'Late-night lab/hackathon access',
-                    'transparent-selections': 'Transparent team selections',
-                    'anonymous-reporting': 'Anonymous reporting system',
-                    'not-sure': 'Not sure yet'
-                }
-                
-                # Calculate percentages for all options
-                all_percentages = {}
-                for option in all_options.keys():
-                    count = help_counts.get(option, 0)
-                    all_percentages[option] = (count / total_responses) * 100 if total_responses > 0 else 0
-                
-                st.markdown(f"""
-                <div style="margin-bottom: 1rem;">
-                    <div style="font-weight: 600; color: #2c3e50;">📊 Total Responses</div>
-                    <div style="color: #7f8c8d;">{total_responses} students</div>
-                </div>
-                <div style="margin-bottom: 1rem;">
-                    <div style="font-weight: 600; color: #2c3e50;">🔥 Top Priority</div>
-                    <div style="color: #7f8c8d;">"{all_options.get(top_priority, top_priority)}" ({top_percentage:.1f}%)</div>
-                </div>
-                <div style="margin-bottom: 1rem;">
-                    <div style="font-weight: 600; color: #2c3e50;">📋 All Options Breakdown</div>
-                </div>
-                """, unsafe_allow_html=True)
-                
-                # Show all options with their percentages
-                for option_key, option_name in all_options.items():
-                    percentage = all_percentages[option_key]
-                    count = help_counts.get(option_key, 0)
-                    st.markdown(f"""
-                    <div style="margin-bottom: 0.5rem; padding: 0.5rem; background: rgba(233, 30, 99, 0.1); border-radius: 5px;">
-                        <div style="font-weight: 600; color: #2c3e50; font-size: 0.9rem;">{option_name}</div>
-                        <div style="color: #7f8c8d; font-size: 0.8rem;">{count} students ({percentage:.1f}%)</div>
-                    </div>
-                    """, unsafe_allow_html=True)
-            
-            # All options breakdown
+            # All options breakdown (compute percentages)
             st.markdown('<h3 class="section-title">📋 Complete Options Breakdown</h3>', unsafe_allow_html=True)
-            
-            # Create a proper breakdown showing all options
             all_options_display = {
                 'all-girls-teams': 'All-girls tech teams',
                 'women-mentors': 'Women tech mentors/speakers', 
@@ -2011,8 +1721,7 @@ def quick_picks_page(df):
                 'anonymous-reporting': 'Anonymous reporting system',
                 'not-sure': 'Not sure yet'
             }
-            
-            # Sort by percentage
+            all_percentages = {key: (help_counts.get(key, 0) / total_responses) * 100 for key in all_options_display.keys()}
             sorted_all_options = sorted(all_percentages.items(), key=lambda x: x[1], reverse=True)
             
             col1, col2 = st.columns(2)
@@ -2053,7 +1762,7 @@ def quick_picks_page(df):
             st.markdown('<h3 class="section-title">🔗 Cross-Analysis Insights</h3>', unsafe_allow_html=True)
             
             # Analyze by voice comfort level
-            if 'voice' in filtered_df.columns:
+            if 'voice' in df.columns and not df['voice'].isna().all():
                 col1, col2 = st.columns(2)
                 
                 with col1:
@@ -2063,7 +1772,7 @@ def quick_picks_page(df):
                     """, unsafe_allow_html=True)
                     
                     # Group by voice comfort and analyze help priorities
-                    voice_groups = filtered_df.groupby('voice')['help'].apply(lambda x: [item for sublist in x.dropna() for item in (sublist if isinstance(sublist, list) else sublist.split(','))]).to_dict()
+                    voice_groups = df.groupby('voice')['help'].apply(lambda x: [item for sublist in x.dropna() for item in (sublist if isinstance(sublist, list) else sublist.split(','))]).to_dict()
                     
                     voice_labels = {
                         'heard': 'Voice Heard',
@@ -2160,13 +1869,12 @@ def quick_picks_page(df):
         """, unsafe_allow_html=True)
     
     # Summary insights
-    if not filtered_df.empty and 'help' in filtered_df.columns and not filtered_df['help'].isna().all():
+    if 'help' in df.columns and not df['help'].isna().all():
         st.markdown('<h2 class="section-title">💡 Key Takeaways</h2>', unsafe_allow_html=True)
         
-        # Calculate overall insights
-        total_responses = len(filtered_df)
+        total_responses = len(df)
         help_responses = []
-        for response in filtered_df['help'].dropna():
+        for response in df['help'].dropna():
             if isinstance(response, list):
                 help_responses.extend(response)
             elif isinstance(response, str):
@@ -2206,7 +1914,7 @@ def quick_picks_page(df):
                     <div style="font-size: 2rem; margin-bottom: 0.5rem;">📊</div>
                     <div style="font-weight: 600; color: #e91e63;">Response Rate</div>
                     <div style="color: #7f8c8d; font-size: 0.9rem; margin-top: 0.5rem;">
-                        {len(filtered_df['help'].dropna())} out of {total_responses} students
+                        {len(df['help'].dropna())} out of {total_responses} students
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
@@ -2314,68 +2022,167 @@ def quick_picks_page(df):
                     </div>
                     """, unsafe_allow_html=True)
             
-            # Action recommendations
-            st.markdown('<h3 class="section-title">🚀 Recommended Actions</h3>', unsafe_allow_html=True)
+            # Action recommendations with Gen Z vibes
+            st.markdown('<h3 class="section-title">🚀 Let\'s Make It Happen!</h3>', unsafe_allow_html=True)
             
             # Generate specific recommendations based on the actual data
             recommendations = []
+            priority_count = 0
             
-            # Check each option and provide specific recommendations
+            # Check each option and provide specific recommendations with Gen Z language
             if 'women-mentors' in help_counts and help_counts['women-mentors'] > 0:
                 mentor_percentage = (help_counts['women-mentors'] / total_responses) * 100
                 if mentor_percentage > 30:
-                    recommendations.append("👩‍🏫 <strong>High Priority:</strong> Launch women mentorship program with industry professionals")
+                    recommendations.append({
+                        "icon": "👩‍🏫",
+                        "priority": "🔥 URGENT",
+                        "title": "Role Model Crisis Alert!",
+                        "action": "Get those amazing women tech leaders on campus ASAP!",
+                        "description": f"{mentor_percentage:.1f}% of students are literally begging for women mentors. Time to make it happen!",
+                        "urgency": "high"
+                    })
+                    priority_count += 1
                 else:
-                    recommendations.append("👩‍🏫 <strong>Consider:</strong> Develop women mentorship initiatives")
+                    recommendations.append({
+                        "icon": "👩‍🏫",
+                        "priority": "💡 Nice to Have",
+                        "title": "Mentorship Vibes",
+                        "action": "Start building that women mentorship network",
+                        "description": f"{mentor_percentage:.1f}% want women mentors - let's give them what they need!",
+                        "urgency": "medium"
+                    })
             
             if 'late-night-access' in help_counts and help_counts['late-night-access'] > 0:
                 access_percentage = (help_counts['late-night-access'] / total_responses) * 100
                 if access_percentage > 25:
-                    recommendations.append("🌙 <strong>High Priority:</strong> Negotiate extended lab hours for tech activities")
+                    recommendations.append({
+                        "icon": "🌙",
+                        "priority": "🔥 URGENT",
+                        "title": "Curfew Crisis!",
+                        "action": "Fight for those late-night lab hours!",
+                        "description": f"{access_percentage:.1f}% are being held back by curfew restrictions. This is literally blocking their tech dreams!",
+                        "urgency": "high"
+                    })
+                    priority_count += 1
                 else:
-                    recommendations.append("🌙 <strong>Consider:</strong> Review lab access policies")
+                    recommendations.append({
+                        "icon": "🌙",
+                        "priority": "💡 Nice to Have",
+                        "title": "Time Flexibility",
+                        "action": "Review those lab access policies",
+                        "description": f"{access_percentage:.1f}% need more flexible access - let's make it happen!",
+                        "urgency": "medium"
+                    })
             
             if 'all-girls-teams' in help_counts and help_counts['all-girls-teams'] > 0:
                 teams_percentage = (help_counts['all-girls-teams'] / total_responses) * 100
                 if teams_percentage > 20:
-                    recommendations.append("👭 <strong>High Priority:</strong> Create all-girls tech teams and hackathon groups")
+                    recommendations.append({
+                        "icon": "👭",
+                        "priority": "🔥 URGENT",
+                        "title": "Safe Spaces Needed!",
+                        "action": "Create those all-girls tech teams and hackathon squads!",
+                        "description": f"{teams_percentage:.1f}% prefer all-girls teams - they're literally asking for safe spaces!",
+                        "urgency": "high"
+                    })
+                    priority_count += 1
                 else:
-                    recommendations.append("👭 <strong>Consider:</strong> Support women-only tech initiatives")
+                    recommendations.append({
+                        "icon": "👭",
+                        "priority": "💡 Nice to Have",
+                        "title": "Comfort Zones",
+                        "action": "Support women-only tech initiatives",
+                        "description": f"{teams_percentage:.1f}% want all-girls teams - let's give them that comfort!",
+                        "urgency": "medium"
+                    })
             
             if 'anonymous-reporting' in help_counts and help_counts['anonymous-reporting'] > 0:
                 reporting_percentage = (help_counts['anonymous-reporting'] / total_responses) * 100
                 if reporting_percentage > 15:
-                    recommendations.append("🔒 <strong>High Priority:</strong> Implement anonymous reporting system")
+                    recommendations.append({
+                        "icon": "🔒",
+                        "priority": "🔥 URGENT",
+                        "title": "Safety First!",
+                        "action": "Build that anonymous reporting system NOW!",
+                        "description": f"{reporting_percentage:.1f}% want anonymous reporting - they're literally afraid to speak up!",
+                        "urgency": "high"
+                    })
+                    priority_count += 1
                 else:
-                    recommendations.append("🔒 <strong>Consider:</strong> Develop safe reporting mechanisms")
+                    recommendations.append({
+                        "icon": "🔒",
+                        "priority": "💡 Nice to Have",
+                        "title": "Safe Reporting",
+                        "action": "Develop safer reporting mechanisms",
+                        "description": f"{reporting_percentage:.1f}% need safer ways to report - let's protect them!",
+                        "urgency": "medium"
+                    })
             
             if 'transparent-selections' in help_counts and help_counts['transparent-selections'] > 0:
                 selection_percentage = (help_counts['transparent-selections'] / total_responses) * 100
                 if selection_percentage > 15:
-                    recommendations.append("📋 <strong>High Priority:</strong> Make team selection processes transparent")
+                    recommendations.append({
+                        "icon": "📋",
+                        "priority": "🔥 URGENT",
+                        "title": "Transparency Crisis!",
+                        "action": "Make those selection processes crystal clear!",
+                        "description": f"{selection_percentage:.1f}% want transparency - they're tired of the mystery!",
+                        "urgency": "high"
+                    })
+                    priority_count += 1
                 else:
-                    recommendations.append("📋 <strong>Consider:</strong> Review selection criteria transparency")
+                    recommendations.append({
+                        "icon": "📋",
+                        "priority": "💡 Nice to Have",
+                        "title": "Clear Processes",
+                        "action": "Review selection criteria transparency",
+                        "description": f"{selection_percentage:.1f}% want more transparency - let's be open!",
+                        "urgency": "medium"
+                    })
             
             if not recommendations:
-                recommendations.append("📊 <strong>Monitor:</strong> Continue collecting data to identify clear priorities")
+                recommendations.append({
+                    "icon": "📊",
+                    "priority": "⏳ Wait & See",
+                    "title": "More Data Needed",
+                    "action": "Keep collecting responses to identify priorities",
+                    "description": "We need more responses to see what's really important to students!",
+                    "urgency": "low"
+                })
             
+            # Display summary
             st.markdown(f"""
             <div class="metric-card animated-bg" style="padding: 2rem;">
-                <h4 style="color: #e91e63; margin-bottom: 1rem;">🎯 Data-Driven Recommendations</h4>
+                <h4 style="color: #e91e63; margin-bottom: 1rem;">🎯 The Tea: What {total_responses} Students Want</h4>
                 <p style="color: #2c3e50; margin-bottom: 1rem;">
-                    Based on responses from <strong>{total_responses} students</strong>, here are the specific actions needed:
+                    Based on the real talk from <strong>{total_responses} students</strong>, here's what needs to happen:
                 </p>
                 <div style="background: linear-gradient(45deg, #e91e63, #ff6b9d); padding: 1rem; border-radius: 10px; color: white;">
-                    <strong>Priority Actions:</strong>
+                    <strong>🔥 {priority_count} URGENT Actions Needed!</strong>
                 </div>
             </div>
             """, unsafe_allow_html=True)
             
-            # Display recommendations
-            for recommendation in recommendations:
+            # Display recommendations with interactive styling
+            for i, rec in enumerate(recommendations):
+                urgency_color = "#e91e63" if rec["urgency"] == "high" else "#ff6b9d" if rec["urgency"] == "medium" else "#9c27b0"
+                urgency_bg = "rgba(233, 30, 99, 0.1)" if rec["urgency"] == "high" else "rgba(255, 107, 157, 0.1)" if rec["urgency"] == "medium" else "rgba(156, 39, 176, 0.1)"
+                
                 st.markdown(f"""
-                <div class="metric-card animated-bg" style="padding: 1rem; margin-bottom: 1rem;">
-                    <div style="color: #2c3e50; font-size: 1rem;">{recommendation}</div>
+                <div class="metric-card animated-bg" style="padding: 1.5rem; margin-bottom: 1.5rem; border-left: 4px solid {urgency_color};">
+                    <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
+                        <div style="font-size: 2rem; margin-right: 1rem;">{rec["icon"]}</div>
+                        <div>
+                            <div style="font-weight: 700; color: {urgency_color}; font-size: 1.1rem;">{rec["priority"]}</div>
+                            <div style="font-weight: 600; color: #2c3e50; font-size: 1.2rem;">{rec["title"]}</div>
+                        </div>
+                    </div>
+                    <div style="color: #2c3e50; font-size: 1rem; margin-bottom: 0.5rem;">
+                        <strong>Action:</strong> {rec["action"]}
+                    </div>
+                    <div style="color: #7f8c8d; font-size: 0.9rem; background: {urgency_bg}; padding: 0.5rem; border-radius: 5px;">
+                        {rec["description"]}
+                    </div>
                 </div>
                 """, unsafe_allow_html=True)
 
@@ -2405,16 +2212,8 @@ def parting_words_page(df):
         messages = df['advice'].dropna().tolist()
         
         if messages:
-            # Add context about the advice section
-            st.markdown("""
-            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 1.5rem; border-radius: 15px; margin-bottom: 2rem; color: white; box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);">
-                <div style="text-align: center; margin-bottom: 1rem;">
-                    <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">💌</div>
-                    <p style="margin: 0; font-weight: 600; font-size: 1.1rem;">✨ Wisdom from the Community ✨</p>
-                    <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; opacity: 0.9;">These messages represent the collective wisdom, experiences, and hopes of women in tech. Each piece of advice is a gift to the next generation.</p>
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
+            # Concise section intro
+            st.markdown('<h2 style="margin: 0 0 0.75rem 0;">💌 Wisdom from the Community</h2>', unsafe_allow_html=True)
             # Clean and get ALL unique messages (no limit)
             unique_messages = []
             seen_messages = set()
@@ -2427,242 +2226,33 @@ def parting_words_page(df):
                         seen_messages.add(normalized)
                         unique_messages.append(cleaned_msg)
             
-            # Show statistics with Gen Z vibes
-            st.markdown(f"""
-            <div style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); padding: 1.5rem; border-radius: 15px; margin-bottom: 2rem; border: 2px solid #ff6b9d; box-shadow: 0 10px 25px rgba(255, 107, 157, 0.15);">
-                <div style="text-align: center;">
-                    <div style="font-size: 2rem; margin-bottom: 0.5rem;">📊</div>
-                    <p style="margin: 0; color: #2c3e50; font-weight: 700; font-size: 1.1rem;">
-                        Found <span style="color: #e91e63; font-size: 1.3rem;">{len(unique_messages)} unique messages</span> from {len(messages)} total responses
-                    </p>
-                    <div style="margin-top: 0.5rem; font-size: 0.9rem; color: #7f8c8d;">✨ Each one is special ✨</div>
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
-            
-            # Gen Z search and sort controls
-            st.markdown("""
-            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 1.5rem; border-radius: 15px; margin-bottom: 2rem; color: white; box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);">
-                <div style="text-align: center; margin-bottom: 1rem;">
-                    <div style="font-size: 1.5rem; margin-bottom: 0.5rem;">🔍</div>
-                    <p style="margin: 0; font-weight: 600; font-size: 1.1rem;">Find Your Perfect Message ✨</p>
-                </div>
-            </div>
-            """, unsafe_allow_html=True)
-            
-            col1, col2 = st.columns([2, 1])
-            
-            with col1:
-                search_term = st.text_input("🔍 Search advice messages", placeholder="Type keywords to filter...", key="search_advice")
-            
-            with col2:
-                sort_option = st.selectbox("🔄 Sort by", ["Original Order", "Length", "Alphabetical"], key="sort_advice")
-            
-            # Apply search filter
-            filtered_messages = unique_messages.copy()
-            if search_term:
-                filtered_messages = [msg for msg in filtered_messages if search_term.lower() in msg.lower()]
-            
-            # Apply sorting
-            if sort_option == "Length":
-                filtered_messages.sort(key=len)
-            elif sort_option == "Alphabetical":
-                filtered_messages.sort()
-            
-            # Show filter results if any with Gen Z style
-            if len(filtered_messages) != len(unique_messages):
-                st.markdown(f"""
-                <div style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); padding: 1rem; border-radius: 12px; margin-bottom: 1rem; border: 2px solid #ff6b9d; box-shadow: 0 8px 20px rgba(255, 107, 157, 0.15);">
-                    <div style="text-align: center;">
-                        <p style="margin: 0; color: #2c3e50; font-size: 1rem; font-weight: 600;">
-                            🔍 Showing <span style="color: #e91e63; font-weight: 700;">{len(filtered_messages)}</span> of <span style="color: #e91e63; font-weight: 700;">{len(unique_messages)}</span> messages
-                        </p>
-                        <div style="margin-top: 0.3rem; font-size: 0.8rem; color: #7f8c8d;">✨ Filtered just for you ✨</div>
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
-                
-            # Display messages in an improved grid layout
-            if filtered_messages:
-                st.markdown("""
-                <div style="margin-top: 2rem; text-align: center;">
-                    <h3 style="color: #2c3e50; font-size: 1.8rem; margin-bottom: 1.5rem; font-weight: 700; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">💌 Community Wisdom</h3>
-                    <p style="color: #7f8c8d; font-size: 1rem; margin-bottom: 2rem;">✨ Scroll through the wisdom ✨</p>
-                </div>
-                """, unsafe_allow_html=True)
-                
-                # Create a 2-column grid layout for better organization
-                cols = st.columns(2)
-                for i, message in enumerate(filtered_messages, 1):
-                    col_idx = (i - 1) % 2
-                    
-                    # Different card styles based on position
-                    if i % 6 == 0:
-                        # Special highlight card
-                        card_style = f"""
-                        <div style="
-                            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
-                            color: white; 
-                            border-radius: 20px; 
-                            padding: 1.5rem; 
-                            margin-bottom: 1.5rem;
-                            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.3);
-                            border: 3px solid rgba(255,255,255,0.2);
-                            position: relative;
-                            overflow: hidden;
-                        ">
-                            <div style="position: absolute; top: -10px; right: -10px; font-size: 2rem; opacity: 0.1;">💫</div>
-                            <div style="text-align: center;">
-                                <div style="font-size: 1.5rem; margin-bottom: 0.8rem;">🌟</div>
-                                <p style="margin: 0; font-size: 1rem; line-height: 1.5; font-style: italic; font-weight: 500;">
-                                    "{message}"
-                                </p>
-                                <div style="margin-top: 0.8rem; font-size: 0.8rem; opacity: 0.8;">
-                                    #{i}
-                                </div>
-                            </div>
+            # Concise stats
+            st.markdown(f"Found <strong>{len(unique_messages)}</strong> unique messages.", unsafe_allow_html=True)
+
+            # Display messages in a clean two-column grid
+            cols = st.columns(2)
+            card_css = (
+                "background: #fff; border: 1px solid #eee; border-left: 4px solid #e91e63; "
+                "border-radius: 10px; padding: 1rem; margin-bottom: 1rem; box-shadow: 0 4px 12px rgba(0,0,0,0.04);"
+            )
+            for i, message in enumerate(unique_messages, 1):
+                col_idx = (i - 1) % 2
+                with cols[col_idx]:
+                    st.markdown(
+                        f"""
+                        <div style=\"{card_css}\">
+                            <div style=\"color:#2c3e50; font-size: 0.98rem; line-height: 1.5;\">“{message}”</div>
                         </div>
-                        """
-                    elif i % 6 == 1:
-                        # Glassmorphism card
-                        card_style = f"""
-                        <div style="
-                            background: rgba(255, 255, 255, 0.1); 
-                            backdrop-filter: blur(10px); 
-                            border: 2px solid rgba(255, 255, 255, 0.2); 
-                            color: #2c3e50; 
-                            border-radius: 20px; 
-                            padding: 1.5rem; 
-                            margin-bottom: 1.5rem;
-                            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-                        ">
-                            <div style="text-align: center;">
-                                <div style="font-size: 1.5rem; margin-bottom: 0.8rem;">✨</div>
-                                <p style="margin: 0; font-size: 1rem; line-height: 1.5; font-style: italic; font-weight: 500;">
-                                    "{message}"
-                                </p>
-                                <div style="margin-top: 0.8rem; font-size: 0.8rem; color: #7f8c8d;">
-                                    #{i}
-                                </div>
-                            </div>
-                        </div>
-                        """
-                    elif i % 6 == 2:
-                        # Pink gradient card
-                        card_style = f"""
-                        <div style="
-                            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); 
-                            color: white; 
-                            border-radius: 20px; 
-                            padding: 1.5rem; 
-                            margin-bottom: 1.5rem;
-                            box-shadow: 0 15px 35px rgba(240, 147, 251, 0.3);
-                            border: 3px solid rgba(255,255,255,0.2);
-                        ">
-                            <div style="text-align: center;">
-                                <div style="font-size: 1.5rem; margin-bottom: 0.8rem;">💝</div>
-                                <p style="margin: 0; font-size: 1rem; line-height: 1.5; font-style: italic; font-weight: 500;">
-                                    "{message}"
-                                </p>
-                                <div style="margin-top: 0.8rem; font-size: 0.8rem; opacity: 0.8;">
-                                    #{i}
-                                </div>
-                            </div>
-                        </div>
-                        """
-                    elif i % 6 == 3:
-                        # Pastel gradient card
-                        card_style = f"""
-                        <div style="
-                            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); 
-                            color: #2c3e50; 
-                            border-radius: 20px; 
-                            padding: 1.5rem; 
-                            margin-bottom: 1.5rem;
-                            box-shadow: 0 15px 35px rgba(168, 237, 234, 0.3);
-                            border: 3px solid rgba(255,255,255,0.3);
-                        ">
-                            <div style="text-align: center;">
-                                <div style="font-size: 1.5rem; margin-bottom: 0.8rem;">🎀</div>
-                                <p style="margin: 0; font-size: 1rem; line-height: 1.5; font-style: italic; font-weight: 500;">
-                                    "{message}"
-                                </p>
-                                <div style="margin-top: 0.8rem; font-size: 0.8rem; color: #7f8c8d;">
-                                    #{i}
-                                </div>
-                            </div>
-                        </div>
-                        """
-                    elif i % 6 == 4:
-                        # Purple gradient card
-                        card_style = f"""
-                        <div style="
-                            background: linear-gradient(135deg, #9c27b0 0%, #673ab7 100%); 
-                            color: white; 
-                            border-radius: 20px; 
-                            padding: 1.5rem; 
-                            margin-bottom: 1.5rem;
-                            box-shadow: 0 15px 35px rgba(156, 39, 176, 0.3);
-                            border: 3px solid rgba(255,255,255,0.2);
-                        ">
-                            <div style="text-align: center;">
-                                <div style="font-size: 1.5rem; margin-bottom: 0.8rem;">💜</div>
-                                <p style="margin: 0; font-size: 1rem; line-height: 1.5; font-style: italic; font-weight: 500;">
-                                    "{message}"
-                                </p>
-                                <div style="margin-top: 0.8rem; font-size: 0.8rem; opacity: 0.8;">
-                                    #{i}
-                                </div>
-                            </div>
-                        </div>
-                        """
-                    else:
-                        # Orange gradient card
-                        card_style = f"""
-                        <div style="
-                            background: linear-gradient(135deg, #ff9800 0%, #ff5722 100%); 
-                            color: white; 
-                            border-radius: 20px; 
-                            padding: 1.5rem; 
-                            margin-bottom: 1.5rem;
-                            box-shadow: 0 15px 35px rgba(255, 152, 0, 0.3);
-                            border: 3px solid rgba(255,255,255,0.2);
-                        ">
-                            <div style="text-align: center;">
-                                <div style="font-size: 1.5rem; margin-bottom: 0.8rem;">🔥</div>
-                                <p style="margin: 0; font-size: 1rem; line-height: 1.5; font-style: italic; font-weight: 500;">
-                                    "{message}"
-                                </p>
-                                <div style="margin-top: 0.8rem; font-size: 0.8rem; opacity: 0.8;">
-                                    #{i}
-                                </div>
-                            </div>
-                        </div>
-                        """
-                    
-                    with cols[col_idx]:
-                        st.markdown(card_style, unsafe_allow_html=True)
-                
-                # Add a Gen Z style summary footer
-                st.markdown("""
-                <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%); border-radius: 25px; color: white; box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);">
-                    <div style="font-size: 3rem; margin-bottom: 1rem;">💝</div>
-                    <p style="margin: 0; font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem;">
-                        Every piece of advice matters ✨
-                    </p>
-                    <p style="margin: 0; font-size: 1rem; opacity: 0.9;">
-                        These messages represent the collective wisdom of women in tech 💫
-                    </p>
-                    <div style="margin-top: 1.5rem; font-size: 1.5rem;">🌟 💫 ✨ 🎀</div>
-                </div>
-                """, unsafe_allow_html=True)
+                        """,
+                        unsafe_allow_html=True,
+                    )
                 
             else:
                 st.markdown("""
                 <div style="text-align: center; padding: 3rem; background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); border-radius: 20px; border: 3px solid #ff6b9d; box-shadow: 0 15px 35px rgba(255, 107, 157, 0.2);">
                     <div style="font-size: 3rem; margin-bottom: 1rem;">💌</div>
-                    <p style="color: #2c3e50; font-size: 1.2rem; font-weight: 600; margin-bottom: 0.5rem;">No meaningful advice messages available yet</p>
-                    <p style="color: #7f8c8d; font-size: 1rem;">✨ But they're coming soon! ✨</p>
+                    <p style="color: #2c3e50; font-size: 1.15rem; font-weight: 600; margin-bottom: 0.5rem;">ACM-W ABESEC desires to spread computing to remote areas</p>
+                    <p style="color: #7f8c8d; font-size: 1rem;">Reaching more women in remote regions, empowering them with computing as a tool, acknowledging their efforts, and sharing the warmth of this community through initiatives like <strong>#HourOfCode</strong>.</p>
                 </div>
                 """, unsafe_allow_html=True)
         else:
