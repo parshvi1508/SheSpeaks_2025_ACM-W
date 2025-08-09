@@ -8,3 +8,4 @@ venv/
 venv
 .github
 .vscode
+firebase_key.json
