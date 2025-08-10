@@ -10,3 +10,4 @@ venv
 .vscode
 firebase_key.json
 .streamlit/secrets.toml   
+firebase_key.json
