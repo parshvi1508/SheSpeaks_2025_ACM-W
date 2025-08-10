@@ -10,6 +10,16 @@ from datetime import datetime, timedelta
 import re
 from collections import Counter
 import streamlit.components.v1 as components
+import os
+import json
+import base64
+
+# Load environment variables from .env file for local development
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass  # dotenv not installed, continue without it
 
 # Page configuration
 st.set_page_config(
@@ -22,10 +32,66 @@ st.set_page_config(
 # Initialize Firebase (only once)
 if not firebase_admin._apps:
     try:
-        cred = credentials.Certificate("firebase_key.json")
-        firebase_admin.initialize_app(cred)
-    except:
-        st.error("Firebase key not found. Please ensure firebase_key.json is in the project directory.")
+        service_account_info = None
+        
+        # 1. Environment Variables (Primary method for Streamlit Cloud)
+        if all(os.getenv(var) for var in ["FIREBASE_PROJECT_ID", "FIREBASE_PRIVATE_KEY", "FIREBASE_CLIENT_EMAIL"]):
+            service_account_info = {
+                "type": "service_account",
+                "project_id": os.getenv("FIREBASE_PROJECT_ID"),
+                "private_key_id": os.getenv("FIREBASE_PRIVATE_KEY_ID", ""),
+                "private_key": os.getenv("FIREBASE_PRIVATE_KEY").replace('\\n', '\n'),
+                "client_email": os.getenv("FIREBASE_CLIENT_EMAIL"),
+                "client_id": os.getenv("FIREBASE_CLIENT_ID", ""),
+                "auth_uri": os.getenv("FIREBASE_AUTH_URI", "https://accounts.google.com/o/oauth2/auth"),
+                "token_uri": os.getenv("FIREBASE_TOKEN_URI", "https://oauth2.googleapis.com/token"),
+                "auth_provider_x509_cert_url": os.getenv("FIREBASE_AUTH_PROVIDER_X509_CERT_URL", "https://www.googleapis.com/oauth2/v1/certs"),
+                "client_x509_cert_url": os.getenv("FIREBASE_CLIENT_X509_CERT_URL", ""),
+                "universe_domain": os.getenv("FIREBASE_UNIVERSE_DOMAIN", "googleapis.com")
+            }
+        
+        # 2. Streamlit Secrets (Fallback)
+        elif "firebase_admin" in st.secrets:
+            service_account_info = dict(st.secrets["firebase_admin"])
+        elif "firebase" in st.secrets:
+            service_account_info = dict(st.secrets["firebase"])
+        
+        # 3. Base64 encoded JSON (Alternative)
+        elif os.getenv("FIREBASE_ADMIN_JSON_B64"):
+            service_account_info = json.loads(base64.b64decode(os.environ["FIREBASE_ADMIN_JSON_B64"]).decode())
+        elif os.getenv("FIREBASE_ADMIN_JSON"):
+            service_account_info = json.loads(os.environ["FIREBASE_ADMIN_JSON"])
+
+        if service_account_info:
+            cred = credentials.Certificate(service_account_info)
+            firebase_admin.initialize_app(cred)
+        else:
+            raise RuntimeError("Missing Firebase Admin credentials")
+            
+    except Exception as e:
+        st.error(f"""
+        🔥 Firebase credentials not configured!
+        
+        **For Streamlit Cloud Deployment:**
+        Set these environment variables in your deployment settings:
+        
+        ```
+        FIREBASE_PROJECT_ID=she-speaks-2025
+        FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDspn3C5/93dxDM\\nv0hHnU9IGbzYx7eE3jubzzGHNwgBWDE+ONoOCiqY14ktXKyUsaKQabc7mvoDXSph\\n6dyX4+8VswewBZETmUim3mlgq01imtVMfTlu18SMkECQxMpyALFIHLeClfefThIN\\nf0G+P/mMIMsK66egsnmsGhDa8p+7+a5IMueZTbwFjopT6VhdraUPx/bSu0pG+cKS\\nVQc23IPtpPK7SJzqrJTK630SuPgg9bdOlx8KsKD6c+sRhOmcAaWg6jHHJt8X94kR\\nwqztTRwL8fHD/NYU2ehYDTE6NtSgKLCjDJrms/yeJSUopSWFIDPrIQTKtIDki/eX\\n3327h5yXAgMBAAECggEAFgXFD1B4CX3hk4Q7guVEnauTfkL7tO2EyOemXXR0Fhfx\\ny94ONh9Dvox+82M78Ox6TzZ0paMy9VbZXQTz5oirf66fnlsDmLomNNfey5m1bmHa\\noVnH8KTmDBoCgCu9a+2WHmfPeL1SrF2lJrHWKwIct6cNFfJiDNXpWcKnOUWnMa/l5\\nqlHbRcxYvhH4RWzxW4PD/SeBMQJTLdjxpfABBB9ilxvd04E7x0XI432lGSqd1PuV\\ntdalWidR535TK5Tj2gIrFVZrM2QRCxbg/+GvyJlb3kvaTwNsOW/m7orrxvC0Z2Zi\\n8rSddvN2l2ToxoZI1tE5dvto5hO475+ziDBCbI1xeQKBgQD481JqPDmlxm5pHvm+\\nlu7pu/l/UB5zP1Kv0n50YqykRZncWRQSzcWjuqQNhHTdAsYhUvAg+GnD1ekhHN3r\\ndKvErJRUcR9GmrXCFaro/2CVqDIGAetkMPxgv0YNcNboTY26RrEN5xgljo2BnJgF\\nZrb00FOWUjzrWOTHEehJxLfWbwKBgQDzWgEEQi5q689KxEPx7uHYCOixn9VviF8d\\nJnRKXDuf8fwI+I7bu8aXzHWq8dKBysxup8q0lMcRWpGTM/EDDhYmQyac5ByUPHp5\\noJ73tsbEyxcnsoVFx65ABG/DC+f+D1BWNRZOM2Njeydj0w6O76ev09k9EsGLQtPI\\nHVDtZcrwWQKBgQCs+lzchiZEIqGbFzPPEw7Eh6EvrhrKV0h79JV7BwkQR3BGI/sH\\nqcTXJBtTbSLKYmAKzZceQZ0zvtFy+ZzVOscTLBsQpV1m8J60Udvkc3XH5wuDExhd\\nEJB8JMtnEW2yEhkVQoNJtrYXenqmgYk7z4f2iT5bJ58+pBCqpa2yfCaErwKBgQCn\\nU+DVE8ik/mX3rAJoLXCfQmj2EcgJu8Ri39kgdFEPRq2dYYOhdXk1UYIrO8IaOt7c\\ny4UnLBHBTfxBMnrrNdlnD89SG8vG5dr1HMuR2tzL3jWatzbKZ2XaYPKUM/CeEduU\\nm0YuGUmi0sCf9DTTddhgnxOF2gq4/gdvVzEZO2ASaQKBgDWl7guLjQrf3TC5XXS4\\nr/z7ZACxTXr8cV40CzP1U4HbdO8/oa6sBs46xfSNYQTclFzFkJ1lLa2mf8aBxXil\\noDiBe1kBjBqrmB155HrxaaOSo1+CM7xtbyWugxeDI1XkiZW8EEoNvS0huMCpDI8Z\\nIg7Fyrnow5lCusLyi4TMiY8Q\\n-----END PRIVATE KEY-----"
+        FIREBASE_CLIENT_EMAIL=firebase-adminsdk-fbsvc@she-speaks-2025.iam.gserviceaccount.com
+        FIREBASE_CLIENT_ID=101995773555692647156
+        FIREBASE_AUTH_URI=https://accounts.google.com/o/oauth2/auth
+        FIREBASE_TOKEN_URI=https://oauth2.googleapis.com/token
+        FIREBASE_AUTH_PROVIDER_X509_CERT_URL=https://www.googleapis.com/oauth2/v1/certs
+        FIREBASE_CLIENT_X509_CERT_URL=https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-fbsvc%40she-speaks-2025.iam.gserviceaccount.com
+        FIREBASE_UNIVERSE_DOMAIN=googleapis.com
+        ```
+        
+        **For local development:**
+        Create a .env file in your project root with the above variables.
+        
+        **Error:** {str(e)}
+        """)
         st.stop()
 
 # Firestore DB
