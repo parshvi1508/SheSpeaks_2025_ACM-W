@@ -1231,7 +1231,7 @@ def say_it_page(df):
 
                 # Create two columns for chart and analysis
                 col1, col2 = st.columns([2, 1])
-
+"""
                 with col1:
                     fig = px.bar(x=list(top_words.values()), y=list(top_words.keys()), orientation='h',
                                 title="✨ Most Common Words in Desired Changes",
@@ -1247,7 +1247,7 @@ def say_it_page(df):
                     st.markdown('<div class="chart-container">', unsafe_allow_html=True)
                     st.plotly_chart(fig, use_container_width=True)
                     st.markdown('</div>', unsafe_allow_html=True)
-                
+   """             
                 with col2:
                     # Analysis insights
                     st.markdown("""
