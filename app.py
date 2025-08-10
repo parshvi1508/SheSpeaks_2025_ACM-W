@@ -1229,75 +1229,7 @@ def say_it_page(df):
             if filtered_words:
                 top_words = dict(sorted(filtered_words.items(), key=lambda x: x[1], reverse=True)[:10])
                 
-                # Create two columns for chart and analysis
-                col1, col2 = st.columns([2, 1])
                 
-                with col1:
-                    fig = px.bar(x=list(top_words.values()), y=list(top_words.keys()), orientation='h',
-                                title="✨ Most Common Words in Desired Changes",
-                                color_discrete_sequence=['#ff6b9d'])
-                    fig.update_layout(
-                        plot_bgcolor='rgba(0,0,0,0)', 
-                        paper_bgcolor='rgba(0,0,0,0)',
-                        font=dict(size=14), 
-                        margin=dict(l=20, r=20, t=40, b=20),
-                        xaxis_title="Word Frequency",
-                        yaxis_title="Common Words"
-                    )
-                    st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-                    st.plotly_chart(fig, use_container_width=True)
-                    st.markdown('</div>', unsafe_allow_html=True)
-                
-                with col2:
-                    # Analysis insights
-                    st.markdown("""
-                    <div class="metric-card animated-bg" style="padding: 1.5rem;">
-                        <h3 style="color: #ff6b9d; margin-bottom: 1rem;">🔍 Change Analysis</h3>
-                    """, unsafe_allow_html=True)
-                    
-                    # Calculate insights
-                    total_responses = len(df['one-change'].dropna())
-                    most_common_word = list(top_words.keys())[0] if top_words else "N/A"
-                    most_common_count = list(top_words.values())[0] if top_words else 0
-                    
-                    # Identify themes
-                    culture_words = ['culture', 'environment', 'atmosphere', 'community', 'inclusive']
-                    support_words = ['support', 'help', 'mentorship', 'guidance', 'resources']
-                    policy_words = ['policy', 'rules', 'regulations', 'curfew', 'restrictions']
-                    education_words = ['education', 'training', 'workshop', 'course', 'learning']
-                    
-                    culture_count = sum(count for word, count in top_words.items() if word in culture_words)
-                    support_count = sum(count for word, count in top_words.items() if word in support_words)
-                    policy_count = sum(count for word, count in top_words.items() if word in policy_words)
-                    education_count = sum(count for word, count in top_words.items() if word in education_words)
-                    
-                    st.markdown(f"""
-                    <div style="margin-bottom: 1rem;">
-                        <div style="font-weight: 600; color: #2c3e50;">📊 Total Responses</div>
-                        <div style="color: #7f8c8d;">{total_responses} students</div>
-                    </div>
-                    <div style="margin-bottom: 1rem;">
-                        <div style="font-weight: 600; color: #2c3e50;">🔥 Top Request</div>
-                        <div style="color: #7f8c8d;">"{most_common_word}" ({most_common_count} mentions)</div>
-                    </div>
-                    <div style="margin-bottom: 1rem;">
-                        <div style="font-weight: 600; color: #2c3e50;">🌍 Culture/Environment</div>
-                        <div style="color: #7f8c8d;">{culture_count} mentions</div>
-                    </div>
-                    <div style="margin-bottom: 1rem;">
-                        <div style="font-weight: 600; color: #2c3e50;">🤝 Support Systems</div>
-                        <div style="color: #7f8c8d;">{support_count} mentions</div>
-                    </div>
-                    <div style="margin-bottom: 1rem;">
-                        <div style="font-weight: 600; color: #2c3e50;">📋 Policy Changes</div>
-                        <div style="color: #7f8c8d;">{policy_count} mentions</div>
-                    </div>
-                    <div style="margin-bottom: 1rem;">
-                        <div style="font-weight: 600; color: #2c3e50;">📚 Education</div>
-                        <div style="color: #7f8c8d;">{education_count} mentions</div>
-                    </div>
-                    </div>
-                    """, unsafe_allow_html=True)
                 
                 # Actionable insights
                 st.markdown('<h3 class="section-title">💡 Actionable Insights</h3>', unsafe_allow_html=True)
